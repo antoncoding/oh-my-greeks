@@ -72,7 +72,7 @@ export async function getAccount(
     const response = await postQuery(endpoints[networkId], query)
     return response.data.account
   } catch (error) {
-    errorCallback(error.toString())
+    errorCallback((error as any).toString())
     return null
   }
 }
@@ -108,7 +108,7 @@ export async function getOTokenTrades(
     const response = await postQuery(endpoints[networkId], query)
     return response.data.otokenTrades
   } catch (error) {
-    errorCallback(error.toString())
+    errorCallback((error as any).toString())
     return []
   }
 }
@@ -129,7 +129,7 @@ export async function getERC20s(
     const response = await postQuery(endpoints[networkId], query)
     return response.data.erc20S
   } catch (error) {
-    errorCallback(error.toString())
+    errorCallback((error as any).toString())
     return null
   }
 }
@@ -173,7 +173,7 @@ export async function getWhitelistedProducts(
     const response = await postQuery(endpoints[networkId], query)
     return response.data.whitelistedProducts
   } catch (error) {
-    errorCallback(error.toString())
+    errorCallback((error as any).toString())
     return null
   }
 }
@@ -255,7 +255,7 @@ export async function getVault(
     const response = await postQuery(endpoints[networkId], query)
     return response.data.vault
   } catch (error) {
-    errorCallback(error.toString())
+    errorCallback((error as any).toString())
     return null
   }
 }
@@ -304,7 +304,7 @@ export async function getOTokens(networkId: SupportedNetworks, errorCallback: Fu
     )
     return oTokens
   } catch (error) {
-    errorCallback(error.toString())
+    errorCallback((error as any).toString())
     return []
   }
 }
@@ -368,7 +368,7 @@ export async function getNonEmptyPartialCollatVaults(
     const now = Math.floor(Date.now() / 1000)
     return response.data.vaults.filter(vault => parseInt(vault.shortOToken.expiryTimestamp) > now)
   } catch (error) {
-    errorCallback(error.toString())
+    errorCallback((error as any).toString())
     return []
   }
 }
@@ -417,7 +417,7 @@ export async function getOToken(
     const response = await postQuery(endpoints[networkId], query)
     return response.data.otoken
   } catch (error) {
-    errorCallback(error.toString())
+    errorCallback((error as any).toString())
     return null
   }
 }
@@ -441,7 +441,7 @@ export async function getHolders(
     )
     return balances
   } catch (error) {
-    errorCallback(error.toString())
+    errorCallback((error as any).toString())
     return []
   }
 }
@@ -465,7 +465,7 @@ export async function getMintersForOToken(
     const uniqueMinters = Array.from(new Set(actions.map((a: { to: string }) => a.to)))
     return uniqueMinters as string[]
   } catch (error) {
-    errorCallback(error.toString())
+    errorCallback((error as any).toString())
     return []
   }
 }
@@ -512,7 +512,7 @@ export async function getLiveOTokens(
     )
     return oTokens
   } catch (error) {
-    errorCallback(error.toString())
+    errorCallback((error as any).toString())
     return null
   }
 }
@@ -565,7 +565,7 @@ export async function getLiveOTokensIsSeries(
     )
     return oTokens
   } catch (error) {
-    errorCallback(error.toString())
+    errorCallback((error as any).toString())
     return null
   }
 }
@@ -617,7 +617,7 @@ export async function getBalances(
       })
       .filter(b => !b.balance.isZero())
   } catch (error) {
-    errorCallback(error.toString())
+    errorCallback((error as any).toString())
     return null
   }
 }
@@ -713,7 +713,7 @@ export const getVaultHistory = async (
     const response = await postQuery(endpoints[networkId], query)
     return response.data
   } catch (error) {
-    errorCallback(error.toString())
+    errorCallback((error as any).toString())
     return null
   }
 }
@@ -746,7 +746,7 @@ export const getOracleAssetsAndPricers = async (
     const response = await postQuery(endpoints[networkId], query)
     return response.data.oracleAssets
   } catch (error) {
-    errorCallback(error.toString())
+    errorCallback((error as any).toString())
     return null
   }
 }
@@ -795,7 +795,7 @@ export const getMainnetChainlinkRounds = async (
       return { ...rawRound, roundIdHex: toAggregatorRoundId(rawRound.number) }
     })
   } catch (error) {
-    errorCallback(error.toString())
+    errorCallback((error as any).toString())
     return []
   }
 }

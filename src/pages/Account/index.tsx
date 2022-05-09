@@ -12,7 +12,7 @@ export default function Account() {
   }, [])
   return (
     <StyledContainer>
-      <Header primary="Account Overview" />
+      <Header primary="My Positions" />
       <L1Balances account={account} />
     </StyledContainer>
   )

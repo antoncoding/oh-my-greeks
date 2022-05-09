@@ -2,11 +2,10 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Visible } from 'react-grid-system'
 
-import { useTheme, IconHome, IconUser, IconConfiguration, LinkBase, IconSwap } from '@aragon/ui'
+import { useTheme, IconHome, IconGrid, LinkBase, IconCoin, IconDashedSquare } from '@aragon/ui'
 import SidebarTitle from './SidebarTitle'
-import SubButton from './SubButton'
 
-import { useConnectedWallet } from '../../contexts/wallet'
+// import { useConnectedWallet } from '../../contexts/wallet'
 
 const hash = process.env.REACT_APP_VERSION || '0x00'
 
@@ -16,17 +15,13 @@ export default function SideBar() {
 
   history.listen(location => {
     setSelectedTab(locationToTabId(location))
-    setSelectedSubButton(locationToSubButtomId(location))
   })
 
-  const { user } = useConnectedWallet()
+  // const { user } = useConnectedWallet()
 
   const defaultSelectedTab = locationToTabId(history.location)
 
-  const defaultSubTab = locationToSubButtomId(history.location)
-
   const [selectedTab, setSelectedTab] = useState(defaultSelectedTab)
-  const [subSelected, setSelectedSubButton] = useState(defaultSubTab)
 
   return (
     <div
@@ -49,114 +44,31 @@ export default function SideBar() {
           isSelected={selectedTab === 1}
         />
         <SidebarTitle
-          title="Account"
-          icon={<IconUser />}
+          title="Positions"
+          icon={<IconGrid />}
           onClick={() => {
-            history.push('/account/')
+            history.push('/positions/')
             setSelectedTab(2)
           }}
           isSelected={selectedTab === 2}
         />
-
-        <SubButton
-          title="Operators"
-          onClick={() => {
-            history.push(`/account/${user}/operators/`)
-          }}
-          isSelected={selectedTab === 2 && subSelected === 'operators'}
-          shown={selectedTab === 2}
-        />
-        <SubButton
-          title="Vaults"
-          onClick={() => {
-            history.push(`/account/${user}/vaults/`)
-          }}
-          isSelected={selectedTab === 2 && subSelected === 'vaults'}
-          shown={selectedTab === 2}
-        />
-
         <SidebarTitle
-          title="Protocol"
-          icon={<IconConfiguration />}
+          title="DOVs"
+          icon={<IconDashedSquare />}
           onClick={() => {
-            history.push('/protocol/')
+            history.push('/positions/')
+            setSelectedTab(3)
           }}
           isSelected={selectedTab === 3}
         />
-
-        <SubButton
-          title="OTokens"
-          onClick={() => {
-            history.push(`/protocol/otokens/`)
-          }}
-          isSelected={selectedTab === 3 && subSelected === 'otokens'}
-          shown={selectedTab === 3}
-        />
-        <SubButton
-          title="Oracle"
-          onClick={() => {
-            history.push(`/protocol/oracle/`)
-          }}
-          isSelected={selectedTab === 3 && subSelected === 'oracle'}
-          shown={selectedTab === 3}
-        />
-        <SubButton
-          title="Liquidation"
-          onClick={() => {
-            history.push(`/protocol/liquidation/`)
-          }}
-          isSelected={selectedTab === 3 && subSelected === 'liquidation'}
-          shown={selectedTab === 3}
-        />
-        <SubButton
-          title="Factory"
-          onClick={() => {
-            history.push(`/protocol/factory/`)
-          }}
-          isSelected={selectedTab === 3 && subSelected === 'factory'}
-          shown={selectedTab === 3}
-        />
-        <SubButton
-          title="Faucet"
-          onClick={() => {
-            history.push(`/protocol/faucet/`)
-          }}
-          isSelected={selectedTab === 3 && subSelected === 'faucet'}
-          shown={selectedTab === 3}
-        />
-
         <SidebarTitle
-          title="Trade"
-          icon={<IconSwap />}
+          title="Tokens"
+          icon={<IconCoin />}
           onClick={() => {
-            history.push('/trade/')
+            history.push('/tokens/')
+            setSelectedTab(4)
           }}
           isSelected={selectedTab === 4}
-        />
-
-        <SubButton
-          title="Swap"
-          onClick={() => {
-            history.push(`/trade/swap/`)
-          }}
-          isSelected={selectedTab === 4 && subSelected === 'swap'}
-          shown={selectedTab === 4}
-        />
-        <SubButton
-          title="OTC"
-          onClick={() => {
-            history.push(`/trade/otc/`)
-          }}
-          isSelected={selectedTab === 4 && subSelected === 'otc'}
-          shown={selectedTab === 4}
-        />
-        <SubButton
-          title="Orderbook"
-          onClick={() => {
-            history.push(`/trade/orderbook/`)
-          }}
-          isSelected={selectedTab === 4 && subSelected === 'orderbook'}
-          shown={selectedTab === 4}
         />
       </div>
       <Visible xl lg xxl md>
@@ -169,7 +81,7 @@ export default function SideBar() {
           }}
         >
           Commit Hash{' '}
-          <LinkBase external href={`https://github.com/antoncoding/opyn-v2-portal/commit/${hash}`}>
+          <LinkBase external href={`https://github.com/antoncoding/my-options/commit/${hash}`}>
             {' '}
             {hash}{' '}
           </LinkBase>
@@ -182,35 +94,11 @@ export default function SideBar() {
 function locationToTabId(location) {
   return location.pathname === '/'
     ? 1
-    : location.pathname.includes('/account/')
+    : location.pathname.includes('/positions/')
     ? 2
-    : location.pathname.includes('/protocol/')
+    : location.pathname.includes('/dovs/')
     ? 3
-    : location.pathname.includes('/trade/')
+    : location.pathname.includes('/tokens/')
     ? 4
     : -1
-}
-
-function locationToSubButtomId(location) {
-  return location.pathname.includes('/operators/')
-    ? 'operators'
-    : location.pathname.includes('/vaults/')
-    ? 'vaults'
-    : location.pathname.includes('/factory/')
-    ? 'factory'
-    : location.pathname.includes('/faucet/')
-    ? 'faucet'
-    : location.pathname.includes('/liquidation/')
-    ? 'liquidation'
-    : location.pathname.includes('/oracle/')
-    ? 'oracle'
-    : location.pathname.includes('/otokens/')
-    ? 'otokens'
-    : location.pathname.includes('/swap/')
-    ? 'swap'
-    : location.pathname.includes('/orderbook/')
-    ? 'orderbook'
-    : location.pathname.includes('/otc/')
-    ? 'otc'
-    : ''
 }

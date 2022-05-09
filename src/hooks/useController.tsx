@@ -91,7 +91,7 @@ export function useController() {
       try {
         await controller.methods.operate(args).send({ from: user }).on('transactionHash', notifyCallback)
       } catch (error) {
-        const message = error.message ? error.message : error.toString()
+        const message = (error as any).message ? (error as any).message : (error as any).toString()
         toast.error(message)
       }
     },
@@ -277,7 +277,7 @@ export function useController() {
         setUsePayableProxy(false)
         setOperateValue(new BigNumber(0))
       } catch (error) {
-        toast.error(error.message)
+        toast.error((error as any).message)
         onError()
       }
 
