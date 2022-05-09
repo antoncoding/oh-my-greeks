@@ -5,7 +5,7 @@ import { Visible } from 'react-grid-system'
 import { useTheme, IconHome, IconGrid, LinkBase, IconCoin, IconDashedSquare } from '@aragon/ui'
 import SidebarTitle from './SidebarTitle'
 
-// import { useConnectedWallet } from '../../contexts/wallet'
+import { useConnectedWallet } from '../../contexts/wallet'
 
 const hash = process.env.REACT_APP_VERSION || '0x00'
 
@@ -17,7 +17,9 @@ export default function SideBar() {
     setSelectedTab(locationToTabId(location))
   })
 
-  // const { user } = useConnectedWallet()
+  const { user } = useConnectedWallet()
+
+  console.log(`user`, user)
 
   const defaultSelectedTab = locationToTabId(history.location)
 
@@ -47,7 +49,7 @@ export default function SideBar() {
           title="Positions"
           icon={<IconGrid />}
           onClick={() => {
-            history.push('/positions/')
+            history.push(`/positions/${user}`)
             setSelectedTab(2)
           }}
           isSelected={selectedTab === 2}
@@ -56,7 +58,7 @@ export default function SideBar() {
           title="DOVs"
           icon={<IconDashedSquare />}
           onClick={() => {
-            history.push('/positions/')
+            history.push(`/dovs/`)
             setSelectedTab(3)
           }}
           isSelected={selectedTab === 3}

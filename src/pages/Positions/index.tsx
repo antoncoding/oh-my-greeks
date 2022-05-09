@@ -3,9 +3,9 @@ import ReactGA from 'react-ga'
 import Header from '../../components/Header'
 import StyledContainer from '../../components/StyledContainer'
 import { useParams } from 'react-router-dom'
-import L1Balances from './L1Wallet'
+import MyPositions from './Positions'
 
-export default function Account() {
+export default function Positions() {
   const { account } = useParams()
   useEffect(() => {
     ReactGA.pageview('/account/')
@@ -13,7 +13,7 @@ export default function Account() {
   return (
     <StyledContainer>
       <Header primary="My Positions" />
-      <L1Balances account={account} />
+      <MyPositions account={account} />
     </StyledContainer>
   )
 }

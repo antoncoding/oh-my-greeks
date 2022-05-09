@@ -1,13 +1,25 @@
-export enum OrderType {
-  NOT_OTOKEN,
-  BID,
-  ASK,
-}
-
-export enum OptionChainMode {
-  All = 'All',
+export enum OptionType {
   Call = 'Call',
   Put = 'Put',
+}
+
+export enum Direction {
+  Long = 'LONG',
+  Short = 'SHORT',
+}
+
+export enum Protocols {
+  Lyra = 'Lyra',
+  Premia = 'Premia',
+  Dopex = 'Dopex',
+  Ribbon = 'Ribbon',
+}
+
+export enum Property {
+  European = 'European',
+  American = 'American',
+  Perpetual = 'Perpetual',
+  PowerPerp = 'PowerPerp',
 }
 
 export enum DeadlineUnit {
@@ -15,16 +27,6 @@ export enum DeadlineUnit {
   Minutes = 'minutes',
   Hours = 'hours',
   Days = 'days',
-}
-
-export enum TradeAction {
-  Buy = 'buy',
-  Sell = 'sell',
-}
-
-export enum TradeTypes {
-  Market = 'market',
-  Limit = 'limit',
 }
 
 export enum Errors {

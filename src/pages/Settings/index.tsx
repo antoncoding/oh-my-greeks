@@ -5,8 +5,6 @@ import StyledContainer from '../../components/StyledContainer'
 import ThemeSwitch from './Theme'
 import ApproveSwitch from './Approval'
 import ClearCache from './ClearCache'
-// import Network from './Network'
-import Refresh from './Refresh'
 
 function Settings({ setTheme }: { setTheme: any }) {
   useEffect(() => ReactGA.pageview('/settings/'), [])
@@ -22,9 +20,6 @@ function Settings({ setTheme }: { setTheme: any }) {
       <ClearCache />
       <br />
       <br />
-      {/* <Network /> */}
-      {/* <br /> */}
-      <Refresh />
     </StyledContainer>
   )
 }

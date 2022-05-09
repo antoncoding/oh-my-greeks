@@ -9,8 +9,8 @@ import { walletContext } from './contexts/wallet'
 import NavBar from './components/NavBar'
 import SideBar from './components/SideBar'
 
-import Account from './pages/Account'
-import ConnectWallet from './pages/Account/ConnectWallet'
+import Positions from './pages/Positions'
+import ConnectWallet from './pages/Positions/ConnectWallet'
 import HomePage from './pages/HomePage'
 import Settings from './pages/Settings'
 
@@ -52,8 +52,8 @@ function App() {
               // offset={maincontentOffset}
             >
               <Switch>
-                <Route path="/account/:account">
-                  <Account />
+                <Route path="/positions/:account">
+                  <Positions />
                 </Route>
                 <Route path="/account/">
                   <ConnectWallet />

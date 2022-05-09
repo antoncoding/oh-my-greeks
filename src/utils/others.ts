@@ -1,17 +1,17 @@
 import Web3 from 'web3'
 import ENS from 'ethereum-ens'
-import { SubgraphOToken, SubgraphOracleAsset } from '../types'
 import {
   isSupportedByMetaMask,
   networkIdToExplorer,
   networkIdToName,
   networkToProvider,
   networkToTokenConfig,
+  OptionType,
   SupportedNetworks,
-  WAITINT_PERIOD,
 } from '../constants'
 import { toTokenAmount } from './math'
 import BigNumber from 'bignumber.js'
+import { Position } from '../types'
 
 // ENS
 export const resolveENS = async (ensName: string, networkId: number) => {
@@ -26,50 +26,51 @@ export const isEOA = async (address: string, networkId: number): Promise<Boolean
   return (await web3.eth.getCode(address)) === '0x'
 }
 
+export const showExpiryText = (expiry: number) => {
+  // Wed, 01 Jun 2022 06:00:00 GMT
+  const string = new Date(expiry * 1000).toUTCString()
+  const pieces = string.split(' ')
+  const time = pieces[4]
+  pieces[4] = time.slice(0, 5)
+  return pieces.join(' ')
+}
+
 /**
  * Sorting function
  * @param a
  * @param b
  */
-export const sortByExpiryThanStrike = (a: SubgraphOToken, b: SubgraphOToken) => {
-  if (Number(a.expiryTimestamp) > Number(b.expiryTimestamp)) return 1
-  else if (Number(a.expiryTimestamp) > Number(b.expiryTimestamp)) return -1
+export const sortByExpiryThanStrike = (a: Position, b: Position) => {
+  if (Number(a.expiry) > Number(b.expiry)) return 1
+  else if (Number(a.expiry) > Number(b.expiry)) return -1
   else if (Number(a.strikePrice) > Number(b.strikePrice)) return 1
   else return -1
 }
 
-export const isExpired = (token: SubgraphOToken) => {
-  return Number(token.expiryTimestamp) < Date.now() / 1000
+export const isExpired = (position: Position) => {
+  return Number(position.expiry) < Date.now() / 1000
 }
 
-export const isSettlementAllowed = (token: SubgraphOToken, allOracleData: SubgraphOracleAsset[]) => {
-  const pricesForUnderlying = allOracleData.find(data => data.asset.id === token.underlyingAsset.id)
-  if (!pricesForUnderlying) return false
-  const hasPriceForExpiry = pricesForUnderlying.prices.find(priceData => priceData.expiry === token.expiryTimestamp)
-  if (!hasPriceForExpiry) return false
-  return Number(token.expiryTimestamp) + WAITINT_PERIOD < Date.now() / 1000
-}
-
-export const isITM = (token: SubgraphOToken, expiryPrice: string) => {
+export const isITM = (position: Position, expiryPrice: string) => {
   return (
-    (token.isPut && Number(expiryPrice) < Number(token.strikePrice)) ||
-    (!token.isPut && Number(expiryPrice) > Number(token.strikePrice))
+    (position.type === OptionType.Put && Number(expiryPrice) < Number(position.strikePrice)) ||
+    (position.type === OptionType.Call && Number(expiryPrice) > Number(position.strikePrice))
   )
 }
 
-export const getExpiryPayout = (token: SubgraphOToken, amount: string, expiryPrice: string) => {
-  if (token.isPut) {
+export const getExpiryPayout = (position: Position, amount: string, expiryPrice: string) => {
+  if (position.type === OptionType.Put) {
     return BigNumber.max(
-      toTokenAmount(new BigNumber(token.strikePrice).minus(new BigNumber(expiryPrice)), 8).times(
+      toTokenAmount(new BigNumber(position.strikePrice).minus(new BigNumber(expiryPrice)), 8).times(
         toTokenAmount(amount, 8),
       ),
       0,
     )
   } else {
     return BigNumber.max(
-      toTokenAmount(new BigNumber(expiryPrice).minus(token.strikePrice), 8).times(toTokenAmount(amount, 8)),
+      toTokenAmount(new BigNumber(expiryPrice).minus(position.strikePrice), 8).times(toTokenAmount(amount, 8)),
       0,
-    ).div(toTokenAmount(token.strikePrice, 8))
+    ).div(toTokenAmount(position.strikePrice, 8))
   }
 }
 
@@ -80,14 +81,6 @@ export function toUTCDateString(expiry: number): string {
 
 export function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms))
-}
-
-export function simplifyOTokenSymbol(symbol: string) {
-  // oWETHUSDC/WETH-15JAN21-680C
-  const [assets, remaining] = symbol.split('/')
-  const [, date, strike] = remaining.split('-')
-  // return oWETH--15JAN21-680C
-  return `${assets.replace('USDC', '')}-${date}-${strike}`
 }
 
 export async function switchNetwork(provider: any, networkId: SupportedNetworks): Promise<boolean> {
