@@ -17,6 +17,7 @@ export const useTokenPrice = (token: string | undefined, refetchIntervalSec: num
 
     async function updatePrice() {
       const price = await getTokenPriceCoingecko(token)
+      console.log('update price', price)
       if (!isCancelled) setPrice(price)
     }
     updatePrice()

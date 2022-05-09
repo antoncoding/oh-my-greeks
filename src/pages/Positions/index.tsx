@@ -12,7 +12,7 @@ export default function Positions() {
   }, [])
   return (
     <StyledContainer>
-      <Header primary="My Positions" />
+      <Header primary="Option Positions" />
       <MyPositions account={account} />
     </StyledContainer>
   )

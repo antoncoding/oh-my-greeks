@@ -1,7 +1,28 @@
 import BigNumber from 'bignumber.js'
+import { OptionType } from '../constants'
+const greeks = require('greeks')
 
 const Web3 = require('web3')
 const web3 = new Web3()
+
+export function getPositionGreeks(
+  spot: BigNumber,
+  strikePrice: BigNumber,
+  expiry: number,
+  vol: number,
+  type: OptionType,
+) {
+  const now = Date.now() / 1000
+  const timeToExpiryInYear = (expiry - now) / (86400 * 365)
+  const typeStr = type === OptionType.Call ? 'call' : 'put'
+  const delta = greeks.getDelta(spot.toNumber(), strikePrice.toNumber(), timeToExpiryInYear, vol, 0.05, typeStr)
+  const gamma = greeks.getGamma(spot.toNumber(), strikePrice.toNumber(), timeToExpiryInYear, vol, 0.05, typeStr)
+  console.log(`gamma`, gamma)
+  const vega = greeks.getVega(spot.toNumber(), strikePrice.toNumber(), timeToExpiryInYear, vol, 0.05, typeStr)
+  const theta = greeks.getTheta(spot.toNumber(), strikePrice.toNumber(), timeToExpiryInYear, vol, 0.05, typeStr)
+  const rho = greeks.getRho(spot.toNumber(), strikePrice.toNumber(), timeToExpiryInYear, vol, 0.05, typeStr)
+  return { delta, gamma, vega, theta, rho }
+}
 
 export function toTokenAmount(wei: BigNumber | number | string, decimals: number) {
   return new BigNumber(wei).div(new BigNumber(10).pow(new BigNumber(decimals)))
