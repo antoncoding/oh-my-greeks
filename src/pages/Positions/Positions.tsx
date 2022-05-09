@@ -1,6 +1,6 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import BigNumber from 'bignumber.js'
-import { DataView, Timer } from '@aragon/ui'
+import { DataView, Split } from '@aragon/ui'
 
 import SectionTitle from '../../components/SectionHeader'
 import TokenAmount from '../../components/TokenAmount'
@@ -14,15 +14,16 @@ import { showExpiryText, sortByExpiryThanStrike } from '../../utils/others'
 import { POSITIONS } from '../../constants/dataviewContents'
 
 import { secondary, green, red } from '../../components/StyleDiv'
-import { useCustomToast } from '../../hooks'
+import { useTokenPrice } from '../../hooks'
 import { Position } from '../../types'
-import { Direction } from '../../constants'
+import { Direction, getWeth, SupportedNetworks } from '../../constants'
 
 export default function Positions({ account }: { account: string }) {
   const { networkId, user } = useConnectedWallet()
   const [page, setPage] = useState(0)
 
-  const toast = useCustomToast()
+  // temprary
+  const ethPrice = useTokenPrice(getWeth(SupportedNetworks.Mainnet).id)
 
   const { positions, isLoading: isLoadingBalance } = usePositions(account)
 
@@ -50,7 +51,12 @@ export default function Positions({ account }: { account: string }) {
     <>
       <DataView
         status={isLoadingBalance ? 'loading' : 'default'}
-        heading={<SectionTitle title="ETH Options" />}
+        heading={
+          <Split
+            primary={<SectionTitle title="ETH Options" />}
+            secondary={<div style={{ paddingTop: 30 }}> Price ${ethPrice.toString()} </div>}
+          />
+        }
         fields={['direction', 'type', 'strike', 'amount', 'expiry', 'collateral', 'platform']}
         emptyState={POSITIONS}
         entries={positions.sort((a, b) => sortByExpiryThanStrike(a, b)) || []}

@@ -5,7 +5,6 @@ type Tokens = {
   [key in SupportedNetworks]: Token[]
 }
 
-const isPublic = process.env.REACT_APP_PUBLIC === 'true'
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000'
 
 export const eth: Token = {
