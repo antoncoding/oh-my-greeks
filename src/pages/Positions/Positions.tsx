@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import BigNumber from 'bignumber.js'
-import { DataView, Split } from '@aragon/ui'
+import { DataView, Split, Info } from '@aragon/ui'
 
 import SectionTitle from '../../components/SectionHeader'
 import TypeTag from '../../components/ActionBadge'
@@ -130,6 +130,14 @@ export default function Positions({
           ]
         }}
       />
+      <br />
+      <Info mode="info" title="Beta version">
+        <div> * Lyra positions are Avalon testnet positions.</div>
+        <div> * Premia short positions are not parsed. </div>
+      </Info>
+      <Info mode="warning" title="Beta version">
+        The vol used to calculate greeks are hardcoded as 100%, so don't take the numbers too seriously.
+      </Info>
     </>
   )
 }
