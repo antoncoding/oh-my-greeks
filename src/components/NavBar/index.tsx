@@ -7,6 +7,7 @@ import { SHOW_SIDE_BAR } from '../../constants'
 import ConnectButton from './ConnectButton'
 import NetworkButton from './NetworkButton'
 import Settings from './SettingsButton'
+import Feedback from './Feedback'
 
 function MyBar({ isSideBarOpen, setSideBarOpen }: { isSideBarOpen: boolean; setSideBarOpen: any }) {
   return (
@@ -26,6 +27,7 @@ function MyBar({ isSideBarOpen, setSideBarOpen }: { isSideBarOpen: boolean; setS
           <NetworkButton />
           <ConnectButton />
           <Settings />
+          <Feedback />
         </>
       }
     />
