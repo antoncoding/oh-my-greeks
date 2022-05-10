@@ -13,18 +13,26 @@ import { Position } from '../../../types'
 import { toTokenAmount } from '../../../utils/math'
 import { Adaptor } from '../../interface'
 import { querySubgraph } from '../../utils'
-import { getAccountTokensQuery, subgraphArbi } from './constants'
+import { getAccountTokensQuery, premiaSupportedNetworks, networkToSubgraphEndpoint } from './constants'
 import { UserOwnedTokenType } from './types'
 
 export class PremiaAdaptor implements Adaptor {
   async getPositionsByUnderlying(account: string, underlying: UnderlyingAsset): Promise<Position[]> {
-    const userOwnedOptions = (await querySubgraph(subgraphArbi, getAccountTokensQuery(account.toLowerCase())))[
-      'userOwnedOptions'
-    ] as UserOwnedTokenType[]
+    let result: Position[] = []
+    for (const network of premiaSupportedNetworks) {
+      const endpoint = networkToSubgraphEndpoint(network) as string
 
-    return userOwnedOptions
-      .filter(p => findLinkedAssetByAddress(p.option.underlying.id, SupportedNetworks.Arbitrum) === underlying)
-      .map(p => this.toPosition(p, SupportedNetworks.Arbitrum))
+      const userOwnedOptions = (await querySubgraph(endpoint, getAccountTokensQuery(account.toLowerCase())))[
+        'userOwnedOptions'
+      ] as UserOwnedTokenType[]
+
+      const positionOnThisNetwork = userOwnedOptions
+        .filter(p => findLinkedAssetByAddress(p.option.underlying.id, network) === underlying)
+        .map(p => this.toPosition(p, network))
+
+      result = result.concat(positionOnThisNetwork)
+    }
+    return result
   }
 
   toPosition(position: UserOwnedTokenType, network: SupportedNetworks): Position {
