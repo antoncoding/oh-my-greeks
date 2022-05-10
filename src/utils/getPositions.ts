@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js'
 import { Direction, OptionType, Protocols, sETH, SupportedNetworks, UnderlyingAsset } from '../constants'
-import { Position, Token } from '../types'
+import { Position } from '../types'
 
-import { ETH, USDC } from '../constants'
+import { USDC } from '../constants'
 
 export async function getPositionsByUnderlying(account: string, underlying: UnderlyingAsset): Promise<Position[]> {
   return [

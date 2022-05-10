@@ -5,9 +5,17 @@ import { UnderlyingAsset } from './enums'
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000'
 
 export const underlyingToPrimaryAddress = (underlying: UnderlyingAsset): string => {
-  if (underlying === UnderlyingAsset.ETH) return ZERO_ADDR
+  if (underlying === UnderlyingAsset.ETH) return '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
   if (underlying === UnderlyingAsset.BTC) return '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599'
   if (underlying === UnderlyingAsset.LINK) return '0x514910771af9ca656af840dff83e8264ecf986ca'
+  return ZERO_ADDR
+}
+
+export const underlyingToIcon = (underlying: UnderlyingAsset): string => {
+  if (underlying === UnderlyingAsset.ETH) return require('../imgs/ETH.png')
+  if (underlying === UnderlyingAsset.BTC) return require('../imgs/WBTC.png')
+  if (underlying === UnderlyingAsset.LINK) return require('../imgs/LINK.png')
+  if (underlying === UnderlyingAsset.AVAX) return require('../imgs/WAVAX.webp')
   return ZERO_ADDR
 }
 

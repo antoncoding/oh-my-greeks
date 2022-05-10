@@ -14,22 +14,22 @@ import { POSITIONS } from '../../constants/dataviewContents'
 
 import { secondary, green, red } from '../../components/StyleDiv'
 import { useTokenPrice } from '../../hooks'
-import { Position, Token } from '../../types'
-import {
-  Direction,
-  protocolToIcon,
-  SupportedNetworks,
-  UnderlyingAsset,
-  underlyingToPrimaryAddress,
-} from '../../constants'
+import { Position } from '../../types'
+import { Direction, protocolToIcon, UnderlyingAsset, underlyingToPrimaryAddress } from '../../constants'
 import { getPositionGreeks, toTokenAmount } from '../../utils/math'
 
-export default function Positions({ account, underlying }: { account: string; underlying: UnderlyingAsset }) {
-  const { user } = useConnectedWallet()
+export default function Positions({
+  account,
+  underlying,
+  spotPrice,
+}: {
+  account: string
+  underlying: UnderlyingAsset
+  spotPrice: BigNumber
+}) {
   const [page, setPage] = useState(0)
 
   // temporary
-  const ethPrice = useTokenPrice(underlyingToPrimaryAddress(underlying), 10)
 
   const { positions, isLoading: isLoadingBalance } = usePositions(account, underlying)
 
@@ -37,13 +37,13 @@ export default function Positions({ account, underlying }: { account: string; un
     return positions.map(position => {
       // todo: fix vol
       const vol = 0.9
-      const greeks = getPositionGreeks(ethPrice, position.strikePrice, position.expiry, vol, position.type)
+      const greeks = getPositionGreeks(spotPrice, position.strikePrice, position.expiry, vol, position.type)
       return {
         ...position,
         ...greeks,
       }
     })
-  }, [positions, ethPrice])
+  }, [positions, spotPrice])
 
   const aggregatedGreeks = useMemo(() => {
     return positionWithGreeks.reduce(
@@ -90,8 +90,8 @@ export default function Positions({ account, underlying }: { account: string; un
         status={isLoadingBalance ? 'loading' : 'default'}
         heading={
           <Split
-            primary={<SectionTitle title="ETH Options" />}
-            secondary={<div style={{ paddingTop: 30 }}> Price ${ethPrice.toString()} </div>}
+            primary={<SectionTitle title={`${underlying} Options`} />}
+            secondary={<div style={{ paddingTop: 30 }}> Price ${spotPrice.toString()} </div>}
           />
         }
         fields={[
