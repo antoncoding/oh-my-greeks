@@ -6,7 +6,7 @@ export const positionScale = 18
 export const getAccountTokensQuery = (address: string) => {
   return `
   {
-    userOwnedOptions (where:{
+    userOwnedOptions (first: 1000, where:{
       user: "${address}"
     }){
       id
@@ -18,9 +18,11 @@ export const getAccountTokensQuery = (address: string) => {
         strike
         underlying {
           symbol
+          id
         }
         base {
           symbol
+          id
         }
         optionType
         

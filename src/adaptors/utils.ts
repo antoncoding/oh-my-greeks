@@ -10,6 +10,6 @@ export const querySubgraph = async (endpoint: string, query: string) => {
   if (data.errors) {
     throw new Error(data.errors[0].message)
   } else {
-    return data
+    return data['data']
   }
 }

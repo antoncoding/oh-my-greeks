@@ -7,9 +7,11 @@ export type UserOwnedTokenType = {
     maturity: string
     strike: string
     underlying: {
+      id: string
       symbol: string
     }
     base: {
+      id: string
       symbol: string
     }
     optionType: 'CALL' | 'PUT'

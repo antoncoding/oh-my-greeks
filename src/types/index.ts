@@ -15,7 +15,7 @@ export type Position = {
   protocol: Protocols
   strikePrice: BigNumber
   expiry: number
-  type: OptionType // call or put
+  type: OptionType // call or put or power perp
   direction: Direction // long or short
   amount: BigNumber
   underlying: Token

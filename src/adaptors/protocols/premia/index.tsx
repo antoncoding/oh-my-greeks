@@ -5,9 +5,9 @@ import {
   Protocols,
   SupportedNetworks,
   UnderlyingAsset,
-  USDC,
-  sETH,
   WETH,
+  DAI,
+  findLinkedAssetByAddress,
 } from '../../../constants'
 import { Position } from '../../../types'
 import { toTokenAmount } from '../../../utils/math'
@@ -21,7 +21,10 @@ export class PremiaAdaptor implements Adaptor {
     const userOwnedOptions = (await querySubgraph(subgraphArbi, getAccountTokensQuery(account.toLowerCase())))[
       'userOwnedOptions'
     ] as UserOwnedTokenType[]
-    return userOwnedOptions.map(p => this.toPosition(p, SupportedNetworks.Arbitrum))
+
+    return userOwnedOptions
+      .filter(p => findLinkedAssetByAddress(p.option.underlying.id, SupportedNetworks.Arbitrum) === underlying)
+      .map(p => this.toPosition(p, SupportedNetworks.Arbitrum))
   }
 
   toPosition(position: UserOwnedTokenType, network: SupportedNetworks): Position {
@@ -34,7 +37,7 @@ export class PremiaAdaptor implements Adaptor {
       type: position.option.optionType === 'PUT' ? OptionType.Put : OptionType.Call, // call or put
       direction: Direction.Long, // always long
       amount: toTokenAmount(position.size, 18),
-      strike: USDC, // dai
+      strike: DAI, // dai
       collateral: undefined,
       underlying: WETH,
       collateralAmount: new BigNumber(0),

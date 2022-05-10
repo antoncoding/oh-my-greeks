@@ -82,7 +82,7 @@ export const WBTC: Token = {
     [SupportedNetworks.Ropsten]: '0xe477d1ffc1e5ea6a577846a4699617997315b4ee',
     [SupportedNetworks.Arbitrum]: '0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f',
     [SupportedNetworks.Optimism]: '0x68f180fcce6836688e9084f035309e29bf0a2095',
-    [SupportedNetworks.Avalanche]: ZERO_ADDR,
+    [SupportedNetworks.Avalanche]: '0x50b7545627a5162f82a992c33b87adc75187b218',
     [SupportedNetworks.Matic]: '0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6',
   },
 }
@@ -94,13 +94,30 @@ export const USDC: Token = {
   decimals: 6,
   img: require('../imgs/USDC.png'),
   addresses: {
-    [SupportedNetworks.Mainnet]: '',
+    [SupportedNetworks.Mainnet]: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
     [SupportedNetworks.Kovan]: '',
     [SupportedNetworks.Ropsten]: '',
-    [SupportedNetworks.Arbitrum]: '',
+    [SupportedNetworks.Arbitrum]: '0xff970a61a04b1ca14834a43f5de4533ebddb5cc8',
     [SupportedNetworks.Optimism]: '0x68f180fcce6836688e9084f035309e29bf0a2095',
-    [SupportedNetworks.Avalanche]: '',
-    [SupportedNetworks.Matic]: '',
+    [SupportedNetworks.Avalanche]: '0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e',
+    [SupportedNetworks.Matic]: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
+  },
+}
+
+export const DAI: Token = {
+  name: 'Dai',
+  symbol: 'DAI',
+  asset: UnderlyingAsset.USD,
+  decimals: 18,
+  img: require('../imgs/DAI.png'),
+  addresses: {
+    [SupportedNetworks.Mainnet]: '0x6b175474e89094c44da98b954eedeac495271d0f',
+    [SupportedNetworks.Kovan]: ZERO_ADDR,
+    [SupportedNetworks.Ropsten]: ZERO_ADDR,
+    [SupportedNetworks.Arbitrum]: '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1',
+    [SupportedNetworks.Optimism]: '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1',
+    [SupportedNetworks.Avalanche]: '0xd586e7f844cea2f87f50152665bcbc2c279d8d70',
+    [SupportedNetworks.Matic]: '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063',
   },
 }
 
@@ -112,13 +129,20 @@ export const LINK: Token = {
   img: require('../imgs/LINK.png'),
   addresses: {
     [SupportedNetworks.Mainnet]: '0x514910771af9ca656af840dff83e8264ecf986ca',
-    [SupportedNetworks.Kovan]: '',
-    [SupportedNetworks.Ropsten]: '',
-    [SupportedNetworks.Arbitrum]: '',
+    [SupportedNetworks.Kovan]: ZERO_ADDR,
+    [SupportedNetworks.Ropsten]: ZERO_ADDR,
+    [SupportedNetworks.Arbitrum]: '0xf97f4df75117a78c1a5a0dbb814af92458539fb4',
     [SupportedNetworks.Optimism]: '0x350a791bfc2c21f9ed5d10980dad2e2638ffa7f6',
-    [SupportedNetworks.Avalanche]: '',
-    [SupportedNetworks.Matic]: '',
+    [SupportedNetworks.Avalanche]: '0x5947bb275c521040051d82396192181b413227a3',
+    [SupportedNetworks.Matic]: '0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39',
   },
 }
 
-export const allTokens = [ETH, WBTC, USDC, LINK]
+export const allTokens = [ETH, WETH, WBTC, USDC, LINK, DAI]
+
+export function findLinkedAssetByAddress(address: string, networkId: SupportedNetworks) {
+  for (const token of allTokens) {
+    if (token.addresses[networkId] === address) return token.asset
+  }
+  return undefined
+}

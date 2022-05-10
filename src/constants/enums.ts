@@ -1,6 +1,7 @@
 export enum OptionType {
   Call = 'Call',
   Put = 'Put',
+  PowerPerp = 'PowerPerp',
 }
 
 export enum UnderlyingAsset {
@@ -27,8 +28,6 @@ export enum Protocols {
 export enum Property {
   European = 'European',
   American = 'American',
-  Perpetual = 'Perpetual',
-  PowerPerp = 'PowerPerp',
 }
 
 // use number so we can compare breakpoints. (xs < sm)

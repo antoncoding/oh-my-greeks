@@ -71,7 +71,7 @@ export default function Positions({
         GreekBlock(position.amount.times(position.gamma).times(sign).toFixed(5)), // gamma
         GreekBlock(position.amount.times(position.vega).times(sign).toFixed(5)),
         GreekBlock(position.amount.times(position.theta).times(sign).toFixed(5)),
-        position.collateralAmount.gt(0)
+        position.collateral
           ? secondary(
               `${toTokenAmount(position.collateralAmount, position.collateral.decimals)} ${position.collateral.symbol}`,
             )
