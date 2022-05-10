@@ -112,6 +112,7 @@ export const initOnboard = (addressChangeCallback, walletChangeCallback, network
             [SupportedNetworks.Arbitrum]: networkToProvider[SupportedNetworks.Arbitrum],
             [SupportedNetworks.Avalanche]: networkToProvider[SupportedNetworks.Avalanche],
             [SupportedNetworks.Matic]: networkToProvider[SupportedNetworks.Matic],
+            [SupportedNetworks.Optimism]: networkToProvider[SupportedNetworks.Optimism],
           }, // [Optional]
           preferred: true,
         },

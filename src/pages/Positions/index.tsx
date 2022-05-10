@@ -20,7 +20,7 @@ export default function Positions() {
   const spotPrice = useTokenPrice(underlyingToPrimaryAddress(underlying), 10)
 
   useEffect(() => {
-    ReactGA.pageview('/account/')
+    ReactGA.pageview('/positions/')
   }, [])
   return (
     <StyledContainer>

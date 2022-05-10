@@ -12,9 +12,8 @@ function HomePage() {
 
   const links = useMemo(() => {
     return Object.values(Protocols).map(protocol => (
-      <Col sm={6} md={4} lg={3}>
+      <Col sm={6} md={4} lg={3} key={protocol}>
         <BoxButton
-          key={protocol}
           title={protocol}
           description=""
           icon={<img src={protocolToIcon(protocol)} alt={protocol} width={50} />}

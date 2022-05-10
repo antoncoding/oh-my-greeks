@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { UnderlyingAsset } from '../constants'
 import { useConnectedWallet } from '../contexts/wallet'
 import { Position } from '../types'
-import { getPositionsByUnderlying } from '../utils/getPositions'
+import { getAllPositionsByUnderlying } from '../adaptors/index'
 
 export function usePositions(address: string, underlying: UnderlyingAsset) {
   const { networkId } = useConnectedWallet()
@@ -13,7 +13,7 @@ export function usePositions(address: string, underlying: UnderlyingAsset) {
   useEffect(() => {
     async function resolveENS() {
       if (address) {
-        const pos = await getPositionsByUnderlying(address, underlying)
+        const pos = await getAllPositionsByUnderlying(address, underlying)
         setAllPositions(pos)
         setIsLoading(false)
       }

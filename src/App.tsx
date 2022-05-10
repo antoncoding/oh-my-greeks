@@ -55,7 +55,7 @@ function App() {
                 <Route path="/positions/:account">
                   <Positions />
                 </Route>
-                <Route path="/account/">
+                <Route path="/positions/">
                   <ConnectWallet />
                 </Route>
                 <Route path="/settings/">

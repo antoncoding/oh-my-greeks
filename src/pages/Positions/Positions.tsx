@@ -7,15 +7,13 @@ import TypeTag from '../../components/ActionBadge'
 
 import { usePositions } from '../../hooks/usePositions'
 
-import { useConnectedWallet } from '../../contexts/wallet'
 import { showExpiryText, sortByExpiryThanStrike } from '../../utils/others'
 
 import { POSITIONS } from '../../constants/dataviewContents'
 
 import { secondary, green, red } from '../../components/StyleDiv'
-import { useTokenPrice } from '../../hooks'
 import { Position } from '../../types'
-import { Direction, protocolToIcon, UnderlyingAsset, underlyingToPrimaryAddress } from '../../constants'
+import { Direction, protocolToIcon, UnderlyingAsset } from '../../constants'
 import { getPositionGreeks, toTokenAmount } from '../../utils/math'
 
 export default function Positions({

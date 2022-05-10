@@ -25,7 +25,7 @@ function Login() {
 
   const goToAccount = useMemo(
     () => account => {
-      history.push(`/account/${account}`)
+      history.push(`/positions/${account}`)
     },
     [history],
   )
