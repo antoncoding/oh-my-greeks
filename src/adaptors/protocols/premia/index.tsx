@@ -2,9 +2,13 @@ import BigNumber from 'bignumber.js'
 import { Direction, OptionType, Protocols, SupportedNetworks, UnderlyingAsset, USDC, sETH } from '../../../constants'
 import { Position } from '../../../types'
 import { Adaptor } from '../../interface'
+import { querySubgraph } from '../../utils'
+import { getAccountTokensQuery, subgraphArbi } from './constants'
 
 export class PremiaAdaptor implements Adaptor {
   async getPositionsByUnderlying(account: string, underlying: UnderlyingAsset): Promise<Position[]> {
+    const arbiPositions = (await querySubgraph(subgraphArbi, getAccountTokensQuery(account.toLowerCase())))['userOwnedOptions']
+    console.log(`arbiPositions`, arbiPositions)
     return [
       {
         id: '',

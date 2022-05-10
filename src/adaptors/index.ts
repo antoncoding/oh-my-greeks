@@ -18,6 +18,5 @@ export async function getAllPositionsByUnderlying(account: string, underlying: U
     const positions = await protocolToAdaptor(protocol).getPositionsByUnderlying(account, underlying)
     result = result.concat(positions)
   }
-  console.log(`result`, result)
   return result
 }
