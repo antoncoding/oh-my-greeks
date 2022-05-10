@@ -1,14 +1,34 @@
 import React, { useEffect, useMemo } from 'react'
 import ReactGA from 'react-ga'
 import { Row, Col } from 'react-grid-system'
-import { Header } from '@aragon/ui'
+import { useHistory } from 'react-router-dom'
+import { Header, Button } from '@aragon/ui'
 
 import Comment from '../../components/Comment'
 import StyledContainer from '../../components/StyledContainer'
 import { Protocols, protocolToIcon, protocolToLink } from '../../constants'
 import BoxButton from '../../components/BoxButton'
+import SectionTitle from '../../components/SectionHeader'
+import { useConnectedWallet } from '../../contexts/wallet'
+
+const greekGods = [
+  require('../../imgs/greeks/arhrodite.png'),
+  require('../../imgs/greeks/arthmis.png'),
+  require('../../imgs/greeks/atropos.png'),
+  require('../../imgs/greeks/chronos.png'),
+  require('../../imgs/greeks/dionysus.png'),
+  require('../../imgs/greeks/hephaestus.png'),
+  require('../../imgs/greeks/nemesis.png'),
+  require('../../imgs/greeks/poseidon.png'),
+  require('../../imgs/greeks/zeus.png'),
+]
+const randomIdx = Math.round(Math.random() * 1000) % greekGods.length
+
 function HomePage() {
   useEffect(() => ReactGA.pageview('/'), [])
+
+  const history = useHistory()
+  const { user } = useConnectedWallet()
 
   const links = useMemo(() => {
     return Object.values(Protocols).map(protocol => (
@@ -29,9 +49,26 @@ function HomePage() {
     <StyledContainer>
       <Header primary="Oh My Greeks" />
 
-      <Comment padding={0} text="Manage your cross-chain delta, gamma, theta in the metaverse!" />
+      <div style={{ display: 'flex', alignContent: 'space-between', width: '100%' }}>
+        <div style={{ alignSelf: 'flex-start' }}>
+          <Comment padding={0} text="Manage your cross-chain delta, gamma, theta in the metaverse!" />
+        </div>
+        <div style={{ marginLeft: 'auto' }}></div>
+      </div>
       <br />
+      <div style={{ display: 'flex', padding: 10, justifyContent: 'center' }}>
+        <img height="300" src={greekGods[randomIdx]} alt={'god'} />
+      </div>
+      <div style={{ display: 'flex', padding: 10, justifyContent: 'center' }}>
+        <Button mode="positive" onClick={() => history.push(`/positions/${user}`)}>
+          {' '}
+          Get Started!{' '}
+        </Button>
+      </div>
+      <SectionTitle title={'Integrating...'} />
       <Row>{links}</Row>
+
+      <br />
     </StyledContainer>
   )
 }

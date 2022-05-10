@@ -20,7 +20,7 @@ export enum Protocols {
   Lyra = 'Lyra',
   Premia = 'Premia',
   Opyn = 'Opyn',
-  // Dopex = 'Dopex',
+  Dopex = 'Dopex',
   // Ribbon = 'Ribbon',
 }
 

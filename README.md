@@ -1,17 +1,28 @@
-# OhMyGreeks
+<div align="center">
+  <h1 align="center"> Oh My Greeks </h1>
+  <h4 align="center"> Simple platform for cross-chain Greeks</h4>
+  <p align="center">
+    <!-- badge goes here -->
+  </p>
 
-<p align="center">
+<p align='center'>
+    <img width="100" src="./src/imgs/greeks/dionysus.png"/>
+</p>  
+</div>
 
-<img width="100" src="./public/favicon.ico">
-<br/>
-<br/>
-
-<br>
 </p>
 
 ## Intro
-We need a place to see all my option positions.. aggregated nicely. 
-Otherwise my bot is loosing money.
+
+We need a place to see all my on-chain greeks.. aggregated nicely.
+
+## Get Started
+
+```shell
+npm install 
+
+npm start
+```
 
 ## Contribute
 
