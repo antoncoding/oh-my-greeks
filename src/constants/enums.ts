@@ -11,8 +11,9 @@ export enum Direction {
 export enum Protocols {
   Lyra = 'Lyra',
   Premia = 'Premia',
-  Dopex = 'Dopex',
-  Ribbon = 'Ribbon',
+  Opyn = 'Opyn',
+  // Dopex = 'Dopex',
+  // Ribbon = 'Ribbon',
 }
 
 export enum Property {
@@ -20,24 +21,6 @@ export enum Property {
   American = 'American',
   Perpetual = 'Perpetual',
   PowerPerp = 'PowerPerp',
-}
-
-export enum DeadlineUnit {
-  Seconds = 'seconds',
-  Minutes = 'minutes',
-  Hours = 'hours',
-  Days = 'days',
-}
-
-export enum Errors {
-  NO_ERROR = 'no error',
-  INSUFFICIENT_LIQUIDITY = 'Insufficient Liquidity',
-  INSUFFICIENT_BALANCE = 'Insufficient Balance',
-}
-
-export enum Spenders {
-  MarginPool,
-  ZeroXExchange,
 }
 
 // use number so we can compare breakpoints. (xs < sm)

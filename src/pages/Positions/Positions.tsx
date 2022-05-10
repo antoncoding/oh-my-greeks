@@ -15,7 +15,7 @@ import { POSITIONS } from '../../constants/dataviewContents'
 import { secondary, green, red } from '../../components/StyleDiv'
 import { useTokenPrice } from '../../hooks'
 import { Position } from '../../types'
-import { Direction, getWeth, SupportedNetworks } from '../../constants'
+import { Direction, getWeth, protocolToIcon, SupportedNetworks } from '../../constants'
 import { getPositionGreeks, toTokenAmount } from '../../utils/math'
 
 export default function Positions({ account }: { account: string }) {
@@ -73,7 +73,7 @@ export default function Positions({ account }: { account: string }) {
               `${toTokenAmount(position.collateralAmount, position.collateral.decimals)} ${position.collateral.symbol}`,
             )
           : '-',
-        position.protocol,
+        <img src={protocolToIcon(position.protocol)} height={25} alt={position.protocol} />,
       ]
     },
     [],
@@ -100,7 +100,7 @@ export default function Positions({ account }: { account: string }) {
           'vega',
           'theta',
           'collateral',
-          'platform',
+          'protocol',
         ]}
         emptyState={POSITIONS}
         entries={positionWithGreeks.sort((a, b) => sortByExpiryThanStrike(a, b)) || []}

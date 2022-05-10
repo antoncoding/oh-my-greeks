@@ -1,4 +1,4 @@
-# MyOptions.eth
+# OhMyGreeks
 
 <p align="center">
 

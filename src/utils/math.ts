@@ -17,7 +17,6 @@ export function getPositionGreeks(
   const typeStr = type === OptionType.Call ? 'call' : 'put'
   const delta = greeks.getDelta(spot.toNumber(), strikePrice.toNumber(), timeToExpiryInYear, vol, 0.05, typeStr)
   const gamma = greeks.getGamma(spot.toNumber(), strikePrice.toNumber(), timeToExpiryInYear, vol, 0.05, typeStr)
-  console.log(`gamma`, gamma)
   const vega = greeks.getVega(spot.toNumber(), strikePrice.toNumber(), timeToExpiryInYear, vol, 0.05, typeStr)
   const theta = greeks.getTheta(spot.toNumber(), strikePrice.toNumber(), timeToExpiryInYear, vol, 0.05, typeStr)
   const rho = greeks.getRho(spot.toNumber(), strikePrice.toNumber(), timeToExpiryInYear, vol, 0.05, typeStr)

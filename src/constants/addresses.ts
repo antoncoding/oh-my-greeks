@@ -141,18 +141,6 @@ export const tokens: Tokens = {
   [SupportedNetworks.Optimism]: [],
 }
 
-type SystemAddresses = {
-  [key in SupportedNetworks]: {
-    controller: string
-    calculator: string
-    factory: string
-    addressBook: string
-    whitelist: string
-    pool: string
-    zeroxExchange: string
-  }
-}
-
 export const getETHAggregators = (networkId: SupportedNetworks) => {
   if (networkId === SupportedNetworks.Mainnet) return '0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419'
   if (networkId === SupportedNetworks.Kovan) return '0x9326BFA02ADD2366b30bacB125260Af641031331'

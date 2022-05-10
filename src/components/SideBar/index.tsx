@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Visible } from 'react-grid-system'
 
@@ -19,9 +19,7 @@ export default function SideBar() {
 
   const { user } = useConnectedWallet()
 
-  console.log(`user`, user)
-
-  const defaultSelectedTab = locationToTabId(history.location)
+  const defaultSelectedTab = useMemo(() => locationToTabId(history.location), [history.location])
 
   const [selectedTab, setSelectedTab] = useState(defaultSelectedTab)
 
