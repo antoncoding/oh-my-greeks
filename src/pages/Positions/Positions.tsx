@@ -13,7 +13,7 @@ import { POSITIONS } from '../../constants/dataviewContents'
 
 import { secondary, green, red } from '../../components/StyleDiv'
 import { Position } from '../../types'
-import { Direction, protocolToIcon, UnderlyingAsset } from '../../constants'
+import { Direction, networkToLogo, protocolToIcon, UnderlyingAsset } from '../../constants'
 import { getPositionGreeks, toTokenAmount } from '../../utils/math'
 
 export default function Positions({
@@ -65,8 +65,8 @@ export default function Positions({
         DirectionBlock(position.direction),
         <TypeTag type={position.type} />,
         secondary(`${position.strikePrice.integerValue().toString()}`),
-        Size(position.amount, position.direction),
         secondary(showExpiryText(position.expiry)),
+        Size(position.amount, position.direction),
         GreekBlock(position.amount.times(position.delta).times(sign).toFixed(5)), // delta
         GreekBlock(position.amount.times(position.gamma).times(sign).toFixed(5)), // gamma
         GreekBlock(position.amount.times(position.vega).times(sign).toFixed(5)),
@@ -76,7 +76,10 @@ export default function Positions({
               `${toTokenAmount(position.collateralAmount, position.collateral.decimals)} ${position.collateral.symbol}`,
             )
           : '-',
-        <img src={protocolToIcon(position.protocol)} height={25} alt={position.protocol} />,
+        <div>
+          <img src={protocolToIcon(position.protocol)} height={25} alt={position.protocol} />
+          <img src={networkToLogo[position.chainId]} height={25} alt={position.protocol} />
+        </div>,
       ]
     },
     [],
@@ -96,8 +99,8 @@ export default function Positions({
           'direction',
           'type',
           'strike',
-          'size',
           'expiry',
+          'size',
           'delta',
           'gamma',
           'vega',
