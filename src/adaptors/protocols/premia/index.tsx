@@ -22,20 +22,21 @@ export class PremiaAdaptor implements Adaptor {
     for (const network of premiaSupportedNetworks) {
       const endpoint = networkToSubgraphEndpoint(network) as string
 
+      // todo: optimize query to filter non-underlying result from subgraph
       const userOwnedOptions = (await querySubgraph(endpoint, getAccountTokensQuery(account.toLowerCase())))[
         'userOwnedOptions'
       ] as UserOwnedTokenType[]
 
       const positionOnThisNetwork = userOwnedOptions
         .filter(p => findLinkedAssetByAddress(p.option.underlying.id, network) === underlying)
-        .map(p => this.toPosition(p, network))
+        .map(p => this.premiaTokenToPosition(p, network))
 
       result = result.concat(positionOnThisNetwork)
     }
     return result
   }
 
-  toPosition(position: UserOwnedTokenType, network: SupportedNetworks): Position {
+  premiaTokenToPosition(position: UserOwnedTokenType, network: SupportedNetworks): Position {
     return {
       id: position.id,
       chainId: network,

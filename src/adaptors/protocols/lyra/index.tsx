@@ -1,63 +1,45 @@
-import BigNumber from 'bignumber.js'
-import { Direction, OptionType, Protocols, SupportedNetworks, UnderlyingAsset, USDC, sETH } from '../../../constants'
+import {
+  Direction,
+  OptionType,
+  Protocols,
+  SupportedNetworks,
+  UnderlyingAsset,
+  USDC,
+  sETH,
+  findTokenByAddress,
+} from '../../../constants'
 import { Position } from '../../../types'
+import { toTokenAmount } from '../../../utils/math'
 import { Adaptor } from '../../interface'
-// import Lyra, {Position as LyraPosition}  from '@lyrafinance/lyra-js'
-// const lyra = new Lyra()
+import { querySubgraph } from '../../utils'
+import { getAccountPositionsQuery, lyraPositionScale, lyraStrikeScale, opMainnetSubgraph } from './constants'
+import { LyraPosition } from './types'
 
 export class LyraAdaptor implements Adaptor {
   async getPositionsByUnderlying(account: string, underlying: UnderlyingAsset): Promise<Position[]> {
-    return [
-      {
-        id: '',
-        chainId: SupportedNetworks.Optimism,
-        protocol: Protocols.Lyra,
-        strikePrice: new BigNumber(5500),
-        expiry: 1669878000,
-        type: OptionType.Call, // call or put
-        direction: Direction.Long, // long or short
-        amount: new BigNumber(10),
-        strike: USDC,
-        collateral: sETH,
-        underlying: sETH,
-        collateralAmount: new BigNumber(0),
-      },
-      {
-        id: '',
-        chainId: SupportedNetworks.Optimism,
-        protocol: Protocols.Lyra,
-        strikePrice: new BigNumber(2000),
-        expiry: 1669878000,
-        type: OptionType.Put, // call or put
-        direction: Direction.Short, // long or short
-        amount: new BigNumber(5),
-        strike: USDC,
-        collateral: USDC,
-        underlying: sETH,
-        collateralAmount: new BigNumber(3000e6),
-      },
-    ]
+    // todo: optimize query to filter non-underlying result from subgraph
+    const lyraPositions = (await querySubgraph(opMainnetSubgraph, getAccountPositionsQuery(account)))[
+      'positions'
+    ] as LyraPosition[]
+    return lyraPositions.map(p => this.toPosition(p))
   }
 
-  async getAllPositions(account: string): Promise<Position[]> {
-    const positions = [] // await lyra.positions(account)
-    return positions.map(p => this.toPosition(p))
-  }
-
-  toPosition(p: any): Position {
+  toPosition(lyraPosition: LyraPosition): Position {
     return {
-      id: '',
+      id: lyraPosition.id,
       chainId: SupportedNetworks.Optimism,
       protocol: Protocols.Lyra,
-      strikePrice: new BigNumber(5500),
-      expiry: 1669878000,
-      type: OptionType.Call, // call or put
-      direction: Direction.Long, // long or short
-      amount: new BigNumber(10),
-      strike: USDC,
-      collateral: sETH,
-      underlying: sETH,
-      collateralAmount: new BigNumber(0),
+      strikePrice: toTokenAmount(lyraPosition.strike.strikePrice, lyraStrikeScale),
+      expiry: lyraPosition.board.expiryTimestamp,
+      type: lyraPosition.option.isCall ? OptionType.Call : OptionType.Put, // call or put
+      direction: lyraPosition.isLong ? Direction.Long : Direction.Short, // long or short
+      amount: toTokenAmount(lyraPosition.size, lyraPositionScale),
+      // todo: change these after mainnet, they won't work on testnet
+      strike: findTokenByAddress(lyraPosition.market.baseAddress, SupportedNetworks.Optimism),
+      underlying: findTokenByAddress(lyraPosition.market.baseAddress, SupportedNetworks.Optimism),
+      collateral: lyraPosition.isBaseCollateral ? sETH : USDC,
+      // collateral: findTokenByAddress(lyraPosition.isBaseCollateral ? lyraPosition.market.baseAddress : lyraPosition.market.quoteAddress, SupportedNetworks.Optimism),
+      collateralAmount: toTokenAmount(lyraPosition.collateral, lyraPositionScale),
     }
   }
 }

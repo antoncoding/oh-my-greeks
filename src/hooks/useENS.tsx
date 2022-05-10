@@ -11,7 +11,7 @@ export function useENS(address: string | null | undefined) {
   useEffect(() => {
     async function resolveENS() {
       if (address) {
-        const provider = await new providers.JsonRpcProvider(networkToProvider[networkId])
+        const provider = await new providers.JsonRpcProvider(networkToProvider[1])
         const name = await provider.lookupAddress(address)
         if (name) setENSName(name)
       }

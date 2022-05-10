@@ -146,3 +146,10 @@ export function findLinkedAssetByAddress(address: string, networkId: SupportedNe
   }
   return undefined
 }
+
+export function findTokenByAddress(address: string, networkId: SupportedNetworks) {
+  for (const token of allTokens) {
+    if (token.addresses[networkId] === address) return token
+  }
+  return undefined
+}
