@@ -1,6 +1,6 @@
 export * from './useConnection'
 export * from './useGasPrice'
-export * from './useToken'
+// export * from './useToken'
 export * from './useTokenBalance'
 export * from './useTokenPrice'
 export * from './useCustomToast'

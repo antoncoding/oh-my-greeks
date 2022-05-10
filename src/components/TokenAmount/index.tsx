@@ -5,8 +5,6 @@ import { EmptyToken } from '../TokenDisplay'
 
 import { TokenAmount as AragonTokenAmount, LinkBase, Modal, AddressField } from '@aragon/ui'
 
-import { getTokenImg } from '../../imgs/utils'
-
 type TokenAmountProps = {
   token: Token
   amount: string
@@ -17,7 +15,7 @@ export default function TokenAmount({ token, amount, chainId }: TokenAmountProps
   const [open, setOpen] = useState(false)
 
   const imgUrl = useMemo(() => {
-    return getTokenImg(token)
+    return token.img
   }, [token])
 
   const symbol = token === null ? '' : token?.symbol
@@ -26,7 +24,7 @@ export default function TokenAmount({ token, amount, chainId }: TokenAmountProps
     <>
       <LinkBase onClick={() => setOpen(true)}>
         <AragonTokenAmount
-          address={token.id}
+          address={token.addresses[chainId]}
           amount={amount}
           chainId={chainId}
           symbol={symbol}
@@ -36,7 +34,7 @@ export default function TokenAmount({ token, amount, chainId }: TokenAmountProps
         />
       </LinkBase>
       <Modal visible={open} onClose={() => setOpen(false)}>
-        <AddressField address={token.id} />
+        <AddressField address={token.addresses[chainId]} />
       </Modal>
     </>
   ) : (

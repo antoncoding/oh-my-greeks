@@ -14,19 +14,24 @@ import { POSITIONS } from '../../constants/dataviewContents'
 
 import { secondary, green, red } from '../../components/StyleDiv'
 import { useTokenPrice } from '../../hooks'
-import { Position } from '../../types'
-import { Direction, getWeth, protocolToIcon, SupportedNetworks } from '../../constants'
+import { Position, Token } from '../../types'
+import {
+  Direction,
+  protocolToIcon,
+  SupportedNetworks,
+  UnderlyingAsset,
+  underlyingToPrimaryAddress,
+} from '../../constants'
 import { getPositionGreeks, toTokenAmount } from '../../utils/math'
 
-export default function Positions({ account }: { account: string }) {
+export default function Positions({ account, underlying }: { account: string; underlying: UnderlyingAsset }) {
   const { user } = useConnectedWallet()
-  console.log(`connected user`, user)
   const [page, setPage] = useState(0)
 
   // temporary
-  const ethPrice = useTokenPrice(getWeth(SupportedNetworks.Mainnet).id, 10)
+  const ethPrice = useTokenPrice(underlyingToPrimaryAddress(underlying), 10)
 
-  const { positions, isLoading: isLoadingBalance } = usePositions(account)
+  const { positions, isLoading: isLoadingBalance } = usePositions(account, underlying)
 
   const positionWithGreeks = useMemo(() => {
     return positions.map(position => {

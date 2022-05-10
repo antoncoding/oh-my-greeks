@@ -3,6 +3,14 @@ export enum OptionType {
   Put = 'Put',
 }
 
+export enum UnderlyingAsset {
+  ETH = 'ETH',
+  BTC = 'BTC',
+  LINK = 'LINK',
+  AVAX = 'AVAX',
+  USD = 'USD',
+}
+
 export enum Direction {
   Long = 'LONG',
   Short = 'SHORT',

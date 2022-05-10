@@ -1,9 +1,5 @@
 import { SupportedNetworks } from './networks'
 
-type graphEndPointType = {
-  [key in SupportedNetworks]: string
-}
-
 const INFURA_KEY = process.env.REACT_APP_INFURA_KEY
 
 export const networkToProvider: { [key in SupportedNetworks]: string } = {
