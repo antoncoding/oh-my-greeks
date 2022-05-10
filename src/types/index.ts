@@ -11,6 +11,7 @@ export type Token = {
 }
 
 export type Position = {
+  id: string // unique id for the protocol to parse particular position
   protocol: Protocols
   strikePrice: BigNumber
   expiry: number

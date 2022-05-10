@@ -7,6 +7,7 @@ export class PremiaAdaptor implements Adaptor {
   async getPositionsByUnderlying(account: string, underlying: UnderlyingAsset): Promise<Position[]> {
     return [
       {
+        id: '',
         chainId: SupportedNetworks.Arbitrum,
         protocol: Protocols.Premia,
         strikePrice: new BigNumber(2800),
@@ -20,6 +21,7 @@ export class PremiaAdaptor implements Adaptor {
         collateralAmount: new BigNumber(0),
       },
       {
+        id: '',
         chainId: SupportedNetworks.Arbitrum,
         protocol: Protocols.Premia,
         strikePrice: new BigNumber(2400),
