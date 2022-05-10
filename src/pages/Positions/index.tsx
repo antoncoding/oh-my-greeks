@@ -9,6 +9,7 @@ import { UnderlyingAsset } from '../../constants/enums'
 import { Col, Row } from 'react-grid-system'
 import { useTokenPrice } from '../../hooks'
 import { underlyingToIcon, underlyingToPrimaryAddress } from '../../constants'
+import SectionTitle from '../../components/SectionHeader'
 
 export default function Positions() {
   const { account } = useParams()
@@ -25,8 +26,11 @@ export default function Positions() {
   return (
     <StyledContainer>
       <Row>
-        <Col xl={10} lg={10} md={8}>
+        <Col xl={8} lg={8} md={6}>
           <Header primary="Positions" />
+        </Col>
+        <Col xl={2} lg={2} md={2}>
+          <SectionTitle paddingTop={28} title={`$${spotPrice.toFixed(2)}`} />
         </Col>
         <Col xl={2} lg={2} md={4}>
           <div style={{ paddingTop: 25, paddingRight: 20 }}>

@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import BigNumber from 'bignumber.js'
-import { DataView, Split, Info } from '@aragon/ui'
+import { DataView, Info } from '@aragon/ui'
 
 import SectionTitle from '../../components/SectionHeader'
 import TypeTag from '../../components/ActionBadge'
@@ -89,12 +89,7 @@ export default function Positions({
     <>
       <DataView
         status={isLoadingBalance ? 'loading' : 'default'}
-        heading={
-          <Split
-            primary={<SectionTitle title={`${underlying} Options`} />}
-            secondary={<div style={{ paddingTop: 30 }}> Price ${spotPrice.toString()} </div>}
-          />
-        }
+        heading={<SectionTitle title={`${underlying} Options`} />}
         fields={[
           'direction',
           'type',
@@ -108,10 +103,11 @@ export default function Positions({
           'collateral',
           'protocol',
         ]}
+        tableRowHeight={45}
         emptyState={POSITIONS}
         entries={positionWithGreeks.sort((a, b) => sortByExpiryThanStrike(a, b)) || []}
         renderEntry={renderPositionRow}
-        entriesPerPage={5}
+        entriesPerPage={10}
         page={page}
         onPageChange={setPage}
       />
@@ -120,6 +116,7 @@ export default function Positions({
         fields={['delta', 'gamma', 'vega', 'theta', 'rho', 'collateral']}
         emptyState={POSITIONS}
         entries={[aggregatedGreeks]}
+        tableRowHeight={47}
         renderEntry={data => {
           return [
             data.delta.toFixed(5),

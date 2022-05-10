@@ -27,7 +27,7 @@ export const ETH: Token = {
   img: require('../imgs/ETH.png'),
   addresses: {
     [SupportedNetworks.Mainnet]: ZERO_ADDR,
-    [SupportedNetworks.Kovan]: ZERO_ADDR,
+    [SupportedNetworks.OpKovan]: ZERO_ADDR,
     [SupportedNetworks.Ropsten]: ZERO_ADDR,
     [SupportedNetworks.Arbitrum]: ZERO_ADDR,
     [SupportedNetworks.Optimism]: ZERO_ADDR,
@@ -44,7 +44,7 @@ export const sETH: Token = {
   img: require('../imgs/sETH.webp'),
   addresses: {
     [SupportedNetworks.Mainnet]: '0x5e74c9036fb86bd7ecdcb084a0673efc32ea31cb',
-    [SupportedNetworks.Kovan]: ZERO_ADDR,
+    [SupportedNetworks.OpKovan]: '0x13414675e6e4e74ef62eaa9ac81926a3c1c7794d',
     [SupportedNetworks.Ropsten]: ZERO_ADDR,
     [SupportedNetworks.Arbitrum]: ZERO_ADDR,
     [SupportedNetworks.Optimism]: '0xe405de8f52ba7559f9df3c368500b6e6ae6cee49',
@@ -61,12 +61,29 @@ export const WETH: Token = {
   img: require('../imgs/ETH.png'),
   addresses: {
     [SupportedNetworks.Mainnet]: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-    [SupportedNetworks.Kovan]: '0xd0a1e359811322d97991e03f863a0c30c2cf029c',
+    [SupportedNetworks.OpKovan]: '0x4200000000000000000000000000000000000006',
     [SupportedNetworks.Ropsten]: '0xc778417e063141139fce010982780140aa0cd5ab',
     [SupportedNetworks.Arbitrum]: '0x82af49447d8a07e3bd95bd0d56f35241523fbab1',
     [SupportedNetworks.Optimism]: '0x4200000000000000000000000000000000000006',
     [SupportedNetworks.Avalanche]: '0x49d5c2bdffac6ce2bfdb6640f4f80f226bc10bab',
     [SupportedNetworks.Matic]: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619',
+  },
+}
+
+export const sBTC: Token = {
+  name: 'Synth Bitcoin',
+  symbol: 'sBTC',
+  asset: UnderlyingAsset.BTC,
+  decimals: 8,
+  img: require('../imgs/WBTC.png'),
+  addresses: {
+    [SupportedNetworks.Mainnet]: '0xfe18be6b3bd88a2d2a7f928d00292e7a9963cfc6',
+    [SupportedNetworks.OpKovan]: ZERO_ADDR,
+    [SupportedNetworks.Ropsten]: ZERO_ADDR,
+    [SupportedNetworks.Arbitrum]: ZERO_ADDR,
+    [SupportedNetworks.Optimism]: '0x298b9b95708152ff6968aafd889c6586e9169f1d',
+    [SupportedNetworks.Avalanche]: ZERO_ADDR,
+    [SupportedNetworks.Matic]: ZERO_ADDR,
   },
 }
 
@@ -78,7 +95,7 @@ export const WBTC: Token = {
   img: require('../imgs/WBTC.png'),
   addresses: {
     [SupportedNetworks.Mainnet]: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
-    [SupportedNetworks.Kovan]: '0x50570256f0da172a1908207aaf0c80d4b279f303',
+    [SupportedNetworks.OpKovan]: ZERO_ADDR,
     [SupportedNetworks.Ropsten]: '0xe477d1ffc1e5ea6a577846a4699617997315b4ee',
     [SupportedNetworks.Arbitrum]: '0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f',
     [SupportedNetworks.Optimism]: '0x68f180fcce6836688e9084f035309e29bf0a2095',
@@ -95,12 +112,29 @@ export const USDC: Token = {
   img: require('../imgs/USDC.png'),
   addresses: {
     [SupportedNetworks.Mainnet]: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-    [SupportedNetworks.Kovan]: '',
+    [SupportedNetworks.OpKovan]: '0x1147b3f6eca313a5b3c2aa3fb85928104a5787d3',
     [SupportedNetworks.Ropsten]: '',
     [SupportedNetworks.Arbitrum]: '0xff970a61a04b1ca14834a43f5de4533ebddb5cc8',
     [SupportedNetworks.Optimism]: '0x68f180fcce6836688e9084f035309e29bf0a2095',
     [SupportedNetworks.Avalanche]: '0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e',
     [SupportedNetworks.Matic]: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
+  },
+}
+
+export const sUSD: Token = {
+  name: 'synth USD',
+  symbol: 'sUSD',
+  asset: UnderlyingAsset.USD,
+  decimals: 6,
+  img: require('../imgs/USDC.png'), // need update
+  addresses: {
+    [SupportedNetworks.Mainnet]: ZERO_ADDR,
+    [SupportedNetworks.OpKovan]: '0x1147b3f6eca313a5b3c2aa3fb85928104a5787d3',
+    [SupportedNetworks.Ropsten]: ZERO_ADDR,
+    [SupportedNetworks.Arbitrum]: ZERO_ADDR,
+    [SupportedNetworks.Optimism]: '0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9',
+    [SupportedNetworks.Avalanche]: ZERO_ADDR,
+    [SupportedNetworks.Matic]: ZERO_ADDR,
   },
 }
 
@@ -112,7 +146,7 @@ export const DAI: Token = {
   img: require('../imgs/DAI.png'),
   addresses: {
     [SupportedNetworks.Mainnet]: '0x6b175474e89094c44da98b954eedeac495271d0f',
-    [SupportedNetworks.Kovan]: ZERO_ADDR,
+    [SupportedNetworks.OpKovan]: ZERO_ADDR,
     [SupportedNetworks.Ropsten]: ZERO_ADDR,
     [SupportedNetworks.Arbitrum]: '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1',
     [SupportedNetworks.Optimism]: '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1',
@@ -129,7 +163,7 @@ export const LINK: Token = {
   img: require('../imgs/LINK.png'),
   addresses: {
     [SupportedNetworks.Mainnet]: '0x514910771af9ca656af840dff83e8264ecf986ca',
-    [SupportedNetworks.Kovan]: ZERO_ADDR,
+    [SupportedNetworks.OpKovan]: ZERO_ADDR,
     [SupportedNetworks.Ropsten]: ZERO_ADDR,
     [SupportedNetworks.Arbitrum]: '0xf97f4df75117a78c1a5a0dbb814af92458539fb4',
     [SupportedNetworks.Optimism]: '0x350a791bfc2c21f9ed5d10980dad2e2638ffa7f6',
@@ -138,7 +172,24 @@ export const LINK: Token = {
   },
 }
 
-export const allTokens = [ETH, WETH, WBTC, USDC, LINK, DAI]
+export const sLINK: Token = {
+  name: 'Synth LINK',
+  symbol: 'sLINK',
+  asset: UnderlyingAsset.LINK,
+  decimals: 18,
+  img: require('../imgs/LINK.png'),
+  addresses: {
+    [SupportedNetworks.Mainnet]: ZERO_ADDR,
+    [SupportedNetworks.OpKovan]: ZERO_ADDR,
+    [SupportedNetworks.Ropsten]: ZERO_ADDR,
+    [SupportedNetworks.Arbitrum]: ZERO_ADDR,
+    [SupportedNetworks.Optimism]: '0xc5db22719a06418028a40a9b5e9a7c02959d0d08',
+    [SupportedNetworks.Avalanche]: ZERO_ADDR,
+    [SupportedNetworks.Matic]: ZERO_ADDR,
+  },
+}
+
+export const allTokens = [ETH, WETH, WBTC, USDC, LINK, DAI, sETH, sBTC, sLINK]
 
 export function findLinkedAssetByAddress(address: string, networkId: SupportedNetworks) {
   for (const token of allTokens) {

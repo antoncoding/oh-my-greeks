@@ -108,7 +108,7 @@ export const initOnboard = (addressChangeCallback, walletChangeCallback, network
           rpc: {
             [SupportedNetworks.Mainnet]: networkToProvider[SupportedNetworks.Mainnet],
             [SupportedNetworks.Ropsten]: networkToProvider[SupportedNetworks.Ropsten],
-            [SupportedNetworks.Kovan]: networkToProvider[SupportedNetworks.Kovan],
+            [SupportedNetworks.OpKovan]: networkToProvider[SupportedNetworks.OpKovan],
             [SupportedNetworks.Arbitrum]: networkToProvider[SupportedNetworks.Arbitrum],
             [SupportedNetworks.Avalanche]: networkToProvider[SupportedNetworks.Avalanche],
             [SupportedNetworks.Matic]: networkToProvider[SupportedNetworks.Matic],
