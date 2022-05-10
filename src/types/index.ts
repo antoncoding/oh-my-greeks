@@ -20,7 +20,7 @@ export type Position = {
   amount: BigNumber
   underlying: Token
   strike: Token
-  collateral: Token
+  collateral?: Token
   chainId: SupportedNetworks
   collateralAmount: BigNumber
 }
