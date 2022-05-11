@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import ReactGA from 'react-ga'
 import { Col, Row, setConfiguration } from 'react-grid-system'
 import 'moment-timezone'
 
@@ -23,8 +22,6 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 import { SHOW_SIDE_BAR } from './constants'
 import Dov from './pages/DOV'
 import Tokens from './pages/Tokens'
-
-ReactGA.initialize(process.env.REACT_APP_GA_TRACKINK_ID || '')
 
 function App() {
   const wallet = useConnection()

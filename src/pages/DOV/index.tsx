@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import ReactGA from 'react-ga'
+import React from 'react'
 import { Header, Info } from '@aragon/ui'
 
 import Comment from '../../components/Comment'
@@ -7,8 +6,6 @@ import StyledContainer from '../../components/StyledContainer'
 import { SUPPORT_LINK } from '../../constants'
 
 function Dov() {
-  useEffect(() => ReactGA.pageview('/dov'), [])
-
   return (
     <StyledContainer>
       <Header primary="DOV investments" />

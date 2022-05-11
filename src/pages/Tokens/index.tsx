@@ -1,13 +1,10 @@
-import React, { useEffect } from 'react'
-import ReactGA from 'react-ga'
+import React from 'react'
 import { Header } from '@aragon/ui'
 
 import Comment from '../../components/Comment'
 import StyledContainer from '../../components/StyledContainer'
 
 function Tokens() {
-  useEffect(() => ReactGA.pageview('/'), [])
-
   return (
     <StyledContainer>
       <Header primary="Tokens" />

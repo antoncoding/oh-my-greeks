@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
-import ReactGA from 'react-ga'
+import React, { useMemo } from 'react'
 import { Row, Col } from 'react-grid-system'
 import { useHistory } from 'react-router-dom'
 import { Header, Button } from '@aragon/ui'
@@ -25,8 +24,6 @@ import { useConnectedWallet } from '../../contexts/wallet'
 // const randomIdx = Math.round(Math.random() * 1000) % greekGods.length
 
 function HomePage() {
-  useEffect(() => ReactGA.pageview('/'), [])
-
   const history = useHistory()
   const { user } = useConnectedWallet()
 

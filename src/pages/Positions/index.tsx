@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import ReactGA from 'react-ga'
+import React, { useMemo, useState } from 'react'
 import { DropDown } from '@aragon/ui'
 import Header from '../../components/Header'
 import StyledContainer from '../../components/StyledContainer'
@@ -23,9 +22,6 @@ export default function Positions() {
 
   const spotPrice = useTokenPrice(underlyingToPrimaryAddress(underlying), 10)
 
-  useEffect(() => {
-    ReactGA.pageview('/positions/')
-  }, [])
   return (
     <StyledContainer>
       <Row>
