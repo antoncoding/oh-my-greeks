@@ -10,6 +10,7 @@ import { Col, Row } from 'react-grid-system'
 import { useTokenPrice } from '../../hooks'
 import { underlyingToIcon, underlyingToPrimaryAddress } from '../../constants'
 import SectionTitle from '../../components/SectionHeader'
+import { useAssetVol } from '../../hooks/useVol'
 
 export default function Positions() {
   const { account } = useParams()
@@ -17,6 +18,8 @@ export default function Positions() {
   const [selected, setSelected] = useState(0)
 
   const underlying = useMemo(() => Object.values(UnderlyingAsset)[selected], [selected])
+
+  const { vol } = useAssetVol(underlying)
 
   const spotPrice = useTokenPrice(underlyingToPrimaryAddress(underlying), 10)
 
@@ -29,8 +32,11 @@ export default function Positions() {
         <Col xl={8} lg={8} md={6}>
           <Header primary="Positions" />
         </Col>
-        <Col xl={2} lg={2} md={2}>
-          <SectionTitle paddingTop={28} title={`$${spotPrice.toFixed(2)}`} />
+        <Col xl={1} lg={1} md={1}>
+          <SectionTitle paddingTop={29} title={`$${spotPrice.toFixed(2)}`} />
+        </Col>
+        <Col xl={1} lg={1} md={1}>
+          <div style={{ paddingTop: 34, paddingLeft: 10, fontSize: 15, opacity: 0.8 }}> {vol.toFixed(3)}% </div>
         </Col>
         <Col xl={2} lg={2} md={4}>
           <div style={{ paddingTop: 25, paddingRight: 20 }}>
@@ -51,7 +57,7 @@ export default function Positions() {
         </Col>
       </Row>
 
-      <MyPositions account={account} underlying={underlying} spotPrice={spotPrice} />
+      <MyPositions account={account} underlying={underlying} spotPrice={spotPrice} vol={vol} />
     </StyledContainer>
   )
 }

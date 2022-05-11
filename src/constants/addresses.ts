@@ -214,7 +214,6 @@ export const allTokens = [ETH, WETH, WBTC, USDC, LINK, DAI, sETH, sBTC, sLINK, L
 export function findLinkedAssetByAddress(address: string, networkId: SupportedNetworks) {
   for (const token of allTokens) {
     if (token.addresses[networkId] === address) {
-      console.log('fuind', token.asset)
       return token.asset
     }
   }

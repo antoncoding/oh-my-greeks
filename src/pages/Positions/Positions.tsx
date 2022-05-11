@@ -20,10 +20,12 @@ export default function Positions({
   account,
   underlying,
   spotPrice,
+  vol,
 }: {
   account: string
   underlying: UnderlyingAsset
   spotPrice: BigNumber
+  vol: number
 }) {
   const [page, setPage] = useState(0)
 
@@ -31,15 +33,14 @@ export default function Positions({
 
   const positionWithGreeks = useMemo(() => {
     return positions.map(position => {
-      // todo: fix vol
-      const vol = 0.9
-      const greeks = getPositionGreeks(spotPrice, position.strikePrice, position.expiry, vol, position.type)
+      // todo: use implied vol for each strike?
+      const greeks = getPositionGreeks(spotPrice, position.strikePrice, position.expiry, vol / 100, position.type)
       return {
         ...position,
         ...greeks,
       }
     })
-  }, [positions, spotPrice])
+  }, [positions, spotPrice, vol])
 
   const aggregatedGreeks = useMemo(() => {
     return positionWithGreeks.reduce(
@@ -131,7 +132,7 @@ export default function Positions({
         <div> * Premia short positions are not parsed. </div>
       </Info>
       <Info mode="warning" title="Beta version">
-        The vol used to calculate greeks are hardcoded as 100%, so don't take the numbers too seriously.
+        All greeks are calculated with ATM vol {vol}%
       </Info>
     </>
   )
