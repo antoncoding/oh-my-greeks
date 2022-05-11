@@ -11,18 +11,18 @@ import BoxButton from '../../components/BoxButton'
 import SectionTitle from '../../components/SectionHeader'
 import { useConnectedWallet } from '../../contexts/wallet'
 
-const greekGods = [
-  require('../../imgs/greeks/arhrodite.png'),
-  require('../../imgs/greeks/arthmis.png'),
-  require('../../imgs/greeks/atropos.png'),
-  require('../../imgs/greeks/chronos.png'),
-  require('../../imgs/greeks/dionysus.png'),
-  require('../../imgs/greeks/hephaestus.png'),
-  require('../../imgs/greeks/nemesis.png'),
-  require('../../imgs/greeks/poseidon.png'),
-  require('../../imgs/greeks/zeus.png'),
-]
-const randomIdx = Math.round(Math.random() * 1000) % greekGods.length
+// const greekGods = [
+//   require('../../imgs/greeks/aphrodite.png'),
+//   require('../../imgs/greeks/artemis.png'),
+//   require('../../imgs/greeks/atropos.png'),
+//   require('../../imgs/greeks/chronos.png'),
+//   require('../../imgs/greeks/dionysus.png'),
+//   require('../../imgs/greeks/hephaestus.png'),
+//   require('../../imgs/greeks/nemesis.png'),
+//   require('../../imgs/greeks/poseidon.png'),
+//   require('../../imgs/greeks/zeus.png'),
+// ]
+// const randomIdx = Math.round(Math.random() * 1000) % greekGods.length
 
 function HomePage() {
   useEffect(() => ReactGA.pageview('/'), [])
@@ -57,7 +57,7 @@ function HomePage() {
       </div>
       <br />
       <div style={{ display: 'flex', padding: 10, justifyContent: 'center' }}>
-        <img height="300" src={greekGods[randomIdx]} alt={'god'} />
+        <img height="300" src={require('../../imgs/greeks/dionysus.png')} alt={'god'} />
       </div>
       <div style={{ display: 'flex', padding: 10, justifyContent: 'center' }}>
         <Button mode="positive" onClick={() => history.push(`/positions/${user}`)}>

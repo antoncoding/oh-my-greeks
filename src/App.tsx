@@ -10,7 +10,7 @@ import NavBar from './components/NavBar'
 import SideBar from './components/SideBar'
 
 import Positions from './pages/Positions'
-import ConnectWallet from './pages/Positions/ConnectWallet'
+import ConnectWallet from './pages/ConnectWallet'
 import HomePage from './pages/HomePage'
 import Settings from './pages/Settings'
 
@@ -21,6 +21,8 @@ import { getPreference } from './utils/storage'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
 import { SHOW_SIDE_BAR } from './constants'
+import Dov from './pages/DOV'
+import Tokens from './pages/Tokens'
 
 ReactGA.initialize(process.env.REACT_APP_GA_TRACKINK_ID || '')
 
@@ -57,6 +59,12 @@ function App() {
                 </Route>
                 <Route path="/positions/">
                   <ConnectWallet />
+                </Route>
+                <Route path="/dovs/">
+                  <Dov />
+                </Route>
+                <Route path="/tokens/">
+                  <Tokens />
                 </Route>
                 <Route path="/settings/">
                   <Settings setTheme={setTheme} />

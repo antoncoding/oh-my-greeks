@@ -7,3 +7,5 @@ export enum VaultTypes {
 }
 
 export const WAITINT_PERIOD = 7500
+
+export const SUPPORT_LINK = 'https://ohmygreeks.canny.io/'
