@@ -1,7 +1,7 @@
 export const POSITIONS = {
   default: {
     title: 'No active positions',
-    subtitle: "You don't have exposure to any greeks on-chain",
+    subtitle: "You don't have opened option position to this asset",
     illustration: null,
   },
   loading: {
