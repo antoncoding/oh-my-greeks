@@ -19,9 +19,6 @@ function ApproveSwitch() {
           <Help hint={'What is this'}>
             Enabling unlimited approval will enable smart contracts to move all your token balance with 1 approval
             transaction.
-            <br />
-            This can save you from making duplicated "approve" transactions, but it's also considered risky because if
-            Opyn got exploit, the hacker may be able to move your ERC20 tokens from your wallet.
           </Help>
         </div>
       </div>

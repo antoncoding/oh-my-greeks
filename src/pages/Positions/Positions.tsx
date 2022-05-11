@@ -27,8 +27,6 @@ export default function Positions({
 }) {
   const [page, setPage] = useState(0)
 
-  // temporary
-
   const { positions, isLoading: isLoadingBalance } = usePositions(account, underlying)
 
   const positionWithGreeks = useMemo(() => {
@@ -129,7 +127,7 @@ export default function Positions({
       />
       <br />
       <Info mode="info" title="Beta version">
-        <div> * Lyra positions are Avalon testnet positions.</div>
+        <div> * You can enable / disable Lyra Avalon tests positions in settings.</div>
         <div> * Premia short positions are not parsed. </div>
       </Info>
       <Info mode="warning" title="Beta version">
