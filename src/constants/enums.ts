@@ -8,7 +8,8 @@ export enum UnderlyingAsset {
   ETH = 'ETH',
   BTC = 'BTC',
   LINK = 'LINK',
-  AVAX = 'AVAX',
+  // AVAX = 'AVAX',
+  LUNA = 'LUNA',
   USD = 'USD',
 }
 

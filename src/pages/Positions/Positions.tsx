@@ -65,10 +65,10 @@ export default function Positions({
         secondary(`${position.strikePrice.integerValue().toString()}`),
         secondary(showExpiryText(position.expiry)),
         Size(position.amount, position.direction),
-        GreekBlock(position.amount.times(position.delta).times(sign).toFixed(5)), // delta
+        GreekBlock(position.amount.times(position.delta).times(sign).toFixed(4)), // delta
         GreekBlock(position.amount.times(position.gamma).times(sign).toFixed(5)), // gamma
-        GreekBlock(position.amount.times(position.vega).times(sign).toFixed(5)),
-        GreekBlock(position.amount.times(position.theta).times(sign).toFixed(5)),
+        GreekBlock(position.amount.times(position.vega).times(sign).toFixed(4)),
+        GreekBlock(position.amount.times(position.theta).times(sign).toFixed(4)),
         position.collateral && position.collateralAmount.gt(0)
           ? secondary(
               `${toTokenAmount(position.collateralAmount, position.collateral.decimals)} ${position.collateral.symbol}`,
@@ -117,11 +117,11 @@ export default function Positions({
         tableRowHeight={47}
         renderEntry={data => {
           return [
-            data.delta.toFixed(5),
+            data.delta.toFixed(4),
             data.gamma.toFixed(5),
-            data.vega.toFixed(5),
-            data.theta.toFixed(5),
-            data.rho.toFixed(5),
+            data.vega.toFixed(4),
+            data.theta.toFixed(4),
+            data.rho.toFixed(4),
           ]
         }}
       />

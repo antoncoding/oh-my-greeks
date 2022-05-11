@@ -26,7 +26,7 @@ export class PremiaAdaptor implements Adaptor {
       const userOwnedOptions = (await querySubgraph(endpoint, getAccountTokensQuery(account.toLowerCase())))[
         'userOwnedOptions'
       ] as UserOwnedTokenType[]
-
+      console.log(`userOwnedOptions`, userOwnedOptions)
       const positionOnThisNetwork = userOwnedOptions
         .filter(p => findLinkedAssetByAddress(p.option.underlying.id, network) === underlying)
         .map(p => this.premiaTokenToPosition(p, network))

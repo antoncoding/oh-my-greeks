@@ -8,6 +8,8 @@ export const underlyingToPrimaryAddress = (underlying: UnderlyingAsset): string 
   if (underlying === UnderlyingAsset.ETH) return '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
   if (underlying === UnderlyingAsset.BTC) return '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599'
   if (underlying === UnderlyingAsset.LINK) return '0x514910771af9ca656af840dff83e8264ecf986ca'
+  // if (underlying === UnderlyingAsset.AVAX) return '0xd2877702675e6ceb975b4a1dff9fb7baf4c91ea9'
+  if (underlying === UnderlyingAsset.LUNA) return '0xd2877702675e6ceb975b4a1dff9fb7baf4c91ea9'
   return ZERO_ADDR
 }
 
@@ -15,7 +17,8 @@ export const underlyingToIcon = (underlying: UnderlyingAsset): string => {
   if (underlying === UnderlyingAsset.ETH) return require('../imgs/ETH.png')
   if (underlying === UnderlyingAsset.BTC) return require('../imgs/WBTC.png')
   if (underlying === UnderlyingAsset.LINK) return require('../imgs/LINK.png')
-  if (underlying === UnderlyingAsset.AVAX) return require('../imgs/WAVAX.webp')
+  if (underlying === UnderlyingAsset.LUNA) return require('../imgs/LUNA.png')
+  // if (underlying === UnderlyingAsset.AVAX) return require('../imgs/WAVAX.webp')
   return ZERO_ADDR
 }
 
@@ -189,11 +192,31 @@ export const sLINK: Token = {
   },
 }
 
-export const allTokens = [ETH, WETH, WBTC, USDC, LINK, DAI, sETH, sBTC, sLINK]
+export const LUNA: Token = {
+  name: 'Wrapped Luna Token',
+  symbol: 'LUNA',
+  asset: UnderlyingAsset.LUNA,
+  decimals: 18,
+  img: require('../imgs/LUNA.png'),
+  addresses: {
+    [SupportedNetworks.Mainnet]: '0xd2877702675e6ceb975b4a1dff9fb7baf4c91ea9',
+    [SupportedNetworks.OpKovan]: ZERO_ADDR,
+    [SupportedNetworks.Ropsten]: ZERO_ADDR,
+    [SupportedNetworks.Arbitrum]: ZERO_ADDR,
+    [SupportedNetworks.Optimism]: ZERO_ADDR,
+    [SupportedNetworks.Avalanche]: ZERO_ADDR,
+    [SupportedNetworks.Matic]: ZERO_ADDR,
+  },
+}
+
+export const allTokens = [ETH, WETH, WBTC, USDC, LINK, DAI, sETH, sBTC, sLINK, LUNA]
 
 export function findLinkedAssetByAddress(address: string, networkId: SupportedNetworks) {
   for (const token of allTokens) {
-    if (token.addresses[networkId] === address) return token.asset
+    if (token.addresses[networkId] === address) {
+      console.log('fuind', token.asset)
+      return token.asset
+    }
   }
   return undefined
 }
