@@ -11,12 +11,19 @@ import {
 } from '../../../constants'
 import { Position } from '../../../types'
 import { toTokenAmount } from '../../../utils/math'
+import { premia } from '../../../constants/teamTokens'
 import { Adaptor } from '../../interface'
 import { querySubgraph } from '../../utils'
 import { getAccountTokensQuery, premiaSupportedNetworks, networkToSubgraphEndpoint } from './constants'
 import { UserOwnedTokenType } from './types'
 
 export class PremiaAdaptor implements Adaptor {
+  teamToken = premia
+
+  img = require('../../../imgs/protocol-icons/premia.png')
+
+  url = 'https://premia.finance/'
+
   async getPositionsByUnderlying(account: string, underlying: UnderlyingAsset): Promise<Position[]> {
     let result: Position[] = []
     for (const network of premiaSupportedNetworks) {
@@ -33,6 +40,11 @@ export class PremiaAdaptor implements Adaptor {
       result = result.concat(positionOnThisNetwork)
     }
     return result
+  }
+
+  async getUserNonERC20Tokens(account: string) {
+    // get xPremia?
+    return []
   }
 
   premiaTokenToPosition(position: UserOwnedTokenType, network: SupportedNetworks): Position {

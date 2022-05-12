@@ -13,8 +13,9 @@ import { POSITIONS } from '../../constants/dataviewContents'
 
 import { secondary, green, red } from '../../components/StyleDiv'
 import { Position } from '../../types'
-import { Direction, networkToLogo, protocolToIcon, UnderlyingAsset } from '../../constants'
+import { Direction, networkToLogo, UnderlyingAsset } from '../../constants'
 import { getPositionGreeks, toTokenAmount } from '../../utils/math'
+import { protocolToAdaptor } from '../../adaptors'
 
 export default function Positions({
   account,
@@ -59,6 +60,7 @@ export default function Positions({
 
   const renderPositionRow = useCallback(
     (position: Position & { delta: number; gamma: number; vega: number; theta: number }) => {
+      const adaptor = protocolToAdaptor(position.protocol)
       const sign = position.direction === Direction.Long ? 1 : -1
       return [
         DirectionBlock(position.direction),
@@ -76,7 +78,7 @@ export default function Positions({
             )
           : '-',
         <div>
-          <img src={protocolToIcon(position.protocol)} height={25} alt={position.protocol} />
+          <img src={adaptor.img} height={25} alt={position.protocol} />
           <img src={networkToLogo[position.chainId]} height={25} alt={position.protocol} />
         </div>,
       ]

@@ -60,7 +60,7 @@ function App() {
                 <Route path="/dovs/">
                   <Dov />
                 </Route>
-                <Route path="/tokens/">
+                <Route path="/tokens/:account">
                   <Tokens />
                 </Route>
                 <Route path="/settings/">

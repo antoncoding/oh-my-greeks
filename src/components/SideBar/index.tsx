@@ -65,7 +65,7 @@ export default function SideBar() {
           title="Tokens"
           icon={<IconCoin />}
           onClick={() => {
-            history.push('/tokens/')
+            history.push(`/tokens/${user}`)
             setSelectedTab(4)
           }}
           isSelected={selectedTab === 4}

@@ -21,9 +21,9 @@ export enum Direction {
 export enum Protocols {
   Lyra = 'Lyra',
   Premia = 'Premia',
-  Opyn = 'Opyn',
-  Dopex = 'Dopex',
-  // Ribbon = 'Ribbon',
+  // Opyn = 'Opyn',
+  // Dopex = 'Dopex',
+  Ribbon = 'Ribbon',
 }
 
 export enum Property {

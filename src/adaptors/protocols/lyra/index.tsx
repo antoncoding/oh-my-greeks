@@ -19,9 +19,16 @@ import {
   opSubgraph,
   underlyingToLyraBaseAsset,
 } from './constants'
+import { lyra } from '../../../constants/teamTokens'
 import { LyraPosition } from './types'
 
 export class LyraAdaptor implements Adaptor {
+  teamToken = lyra
+
+  img = require('../../../imgs/protocol-icons/lyra.png')
+
+  url = 'https://www.lyra.finance/'
+
   async getPositionsByUnderlying(account: string, underlying: UnderlyingAsset): Promise<Position[]> {
     // todo: optimize query to filter non-underlying result from subgraph
     const lyraPositions = (await querySubgraph(opSubgraph, getAccountPositionsQuery(account)))[
@@ -30,6 +37,15 @@ export class LyraAdaptor implements Adaptor {
     return lyraPositions
       .map(p => this.toPosition(p))
       .filter(p => underlyingToLyraBaseAsset(underlying) === p.underlying)
+  }
+
+  /**
+   * get lyra token balance
+   * @param account
+   * @returns
+   */
+  async getUserNonERC20Tokens(account: string) {
+    return []
   }
 
   toPosition(lyraPosition: LyraPosition): Position {
