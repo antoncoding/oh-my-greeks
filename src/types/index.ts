@@ -9,6 +9,11 @@ export type ERC20 = {
   addresses: { [key in SupportedNetworks]?: string }
 }
 
+export type TeamToken = ERC20 & {
+  coingeckoId: string
+  themeColor: string
+}
+
 // token entity, used to represent underlying, strike, collateral... etc
 export type Token = ERC20 & {
   asset: UnderlyingAsset // what is this token representing? use to link multiple ERC20s to the same asset (sETH, wETH) ...etc
@@ -33,7 +38,7 @@ export type Position = {
 // represent one user's position on the team token
 export type UserTeamTokenBalance = {
   protocol: Protocols
-  token: ERC20
+  token: TeamToken
   balance: BigNumber
   isLocked: boolean
   networkId: SupportedNetworks

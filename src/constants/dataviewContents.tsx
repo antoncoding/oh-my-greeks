@@ -1,3 +1,5 @@
+import React from 'react'
+
 export const POSITIONS = {
   default: {
     title: 'No active positions',
@@ -21,8 +23,8 @@ export const POSITIONS = {
 export const TOKEN_BALANCE = {
   default: {
     title: 'No Tokens!',
-    subtitle: "You don't hold any of the team tokens. Seems like a mistake.",
-    illustration: null,
+    subtitle: "You don't hold any of the team tokens. NGMI.",
+    illustration: <img src={require('../imgs/greeks/zeus.png')} height={200} alt="empty.." />,
   },
   loading: {
     title: 'Loading',

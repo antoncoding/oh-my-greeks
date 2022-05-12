@@ -1,10 +1,12 @@
 // list of tokens shown in "Tokens" page
-import { ERC20 } from '../types'
+import { TeamToken } from '../types'
 import { SupportedNetworks } from './networks'
 
-export const lyra: ERC20 = {
+export const lyra: TeamToken = {
   name: 'Lyra Token',
   symbol: 'LYRA',
+  coingeckoId: 'lyra-finance',
+  themeColor: '#05c99b',
   decimals: 18,
   img: require('../imgs/protocol-icons/lyra.png'),
   addresses: {
@@ -13,9 +15,11 @@ export const lyra: ERC20 = {
   },
 }
 
-export const ribbon: ERC20 = {
+export const ribbon: TeamToken = {
   name: 'Ribbon',
   symbol: 'RBN',
+  coingeckoId: 'ribbon-finance',
+  themeColor: '#FC0A54',
   decimals: 18,
   img: require('../imgs/protocol-icons/ribbon.svg'),
   addresses: {
@@ -23,19 +27,11 @@ export const ribbon: ERC20 = {
   },
 }
 
-export const xPremia: ERC20 = {
-  name: 'xPremia',
-  symbol: 'xPREMIA',
-  decimals: 18,
-  img: require('../imgs/protocol-icons/premia.png'),
-  addresses: {
-    [SupportedNetworks.Mainnet]: '0xF1bB87563A122211d40d393eBf1c633c330377F9',
-  },
-}
-
-export const premia: ERC20 = {
+export const premia: TeamToken = {
   name: 'Premia',
   symbol: 'PREMIA',
+  coingeckoId: 'premia',
+  themeColor: '#5294FF',
   decimals: 18,
   img: require('../imgs/protocol-icons/premia.png'),
   addresses: {
@@ -43,4 +39,4 @@ export const premia: ERC20 = {
   },
 }
 
-export const allProjectTokens = [lyra, premia, xPremia, ribbon]
+export const allProjectTokens = [lyra, premia, ribbon]
