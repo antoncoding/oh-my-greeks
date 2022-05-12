@@ -30,6 +30,7 @@ export function useAssetVol(asset: UnderlyingAsset) {
     if (lastMessage !== null) {
       const params = JSON.parse(lastMessage.data).params
       if (params && params.data) {
+        console.log(`params`, params)
         const index = params.data.index_name
         if (pair === index) setVol(params.data.volatility)
       }
