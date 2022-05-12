@@ -36,6 +36,7 @@ export const premia: TeamToken = {
   img: require('../imgs/protocol-icons/premia.png'),
   addresses: {
     [SupportedNetworks.Mainnet]: '0x6399c842dd2be3de30bf99bc7d1bbf6fa3650e70',
+    [SupportedNetworks.Arbitrum]: '0x51fc0f6660482ea73330e414efd7808811a57fa2',
   },
 }
 

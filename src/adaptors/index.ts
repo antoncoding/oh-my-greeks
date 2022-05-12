@@ -51,7 +51,9 @@ export async function getTeamTokenBalances(account: string): Promise<UserTeamTok
     for (const network of Object.keys(token.addresses)) {
       const web3 = new Web3(networkToProvider[network])
       const contract = new web3.eth.Contract(ERC20Abi, token.addresses[network])
+      console.log(`getting token`, protocol, network)
       const rawBalance = await contract.methods.balanceOf(account).call()
+      console.log(`rawBalance`, rawBalance)
       const balance = new BigNumber(rawBalance)
       if (balance.gt(0))
         result.push({
