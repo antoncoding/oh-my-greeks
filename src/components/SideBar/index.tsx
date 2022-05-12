@@ -1,13 +1,9 @@
 import React, { useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Visible } from 'react-grid-system'
-
-import { useTheme, IconHome, IconGrid, LinkBase, IconCoin, IconDashedSquare } from '@aragon/ui'
+import { useTheme, IconHome, IconGrid, IconCoin, IconDashedSquare } from '@aragon/ui'
 import SidebarTitle from './SidebarTitle'
 
 import { useConnectedWallet } from '../../contexts/wallet'
-
-const hash = process.env.REACT_APP_VERSION || '0x00'
 
 export default function SideBar() {
   const theme = useTheme()
@@ -71,22 +67,6 @@ export default function SideBar() {
           isSelected={selectedTab === 4}
         />
       </div>
-      <Visible xl lg xxl md>
-        <div
-          style={{
-            color: theme.contentSecondary,
-            padding: '10px',
-            position: 'fixed',
-            bottom: '0px',
-          }}
-        >
-          Commit Hash{' '}
-          <LinkBase external href={`https://github.com/antoncoding/my-options/commit/${hash}`}>
-            {' '}
-            {hash}{' '}
-          </LinkBase>
-        </div>
-      </Visible>
     </div>
   )
 }
