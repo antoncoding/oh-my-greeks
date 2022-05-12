@@ -36,6 +36,7 @@ export class PremiaAdaptor implements Adaptor {
       const positionOnThisNetwork = userOwnedOptions
         .filter(p => findLinkedAssetByAddress(p.option.underlying.id, network) === underlying)
         .map(p => this.premiaTokenToPosition(p, network))
+        .filter(p => p.amount.gt(0))
 
       result = result.concat(positionOnThisNetwork)
     }

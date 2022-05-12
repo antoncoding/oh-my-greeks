@@ -36,6 +36,7 @@ export class LyraAdaptor implements Adaptor {
     ] as LyraPosition[]
     return lyraPositions
       .map(p => this.toPosition(p))
+      .filter(p => p.amount.gt(0))
       .filter(p => underlyingToLyraBaseAsset(underlying) === p.underlying)
   }
 
