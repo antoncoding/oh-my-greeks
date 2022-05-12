@@ -1,10 +1,10 @@
 import { Protocols } from './enums'
 
 export const protocolToIcon = (protocol: Protocols) => {
-  if (protocol === Protocols.Lyra) return require('../imgs/icons/lyra.png')
-  if (protocol === Protocols.Premia) return require('../imgs/icons/premia.png')
-  if (protocol === Protocols.Opyn) return require('../imgs/icons/opyn.png')
-  if (protocol === Protocols.Dopex) return require('../imgs/icons/dopex.png')
+  if (protocol === Protocols.Lyra) return require('../imgs/protocol-icons/lyra.png')
+  if (protocol === Protocols.Premia) return require('../imgs/protocol-icons/premia.png')
+  if (protocol === Protocols.Opyn) return require('../imgs/protocol-icons/opyn.png')
+  if (protocol === Protocols.Dopex) return require('../imgs/protocol-icons/dopex.png')
   else return undefined
 }
 

@@ -1,13 +1,14 @@
 import BigNumber from 'bignumber.js'
 import { Protocols, OptionType, Direction, SupportedNetworks, UnderlyingAsset } from '../constants'
 
+// token entity
 export type Token = {
   name?: string
   symbol: string
   decimals: number
-  asset: UnderlyingAsset
+  asset: UnderlyingAsset // what is this token representing? use to link multiple ERC20s to the same asset (sETH, wETH) ,,etc
   img?: string
-  addresses: { [key in SupportedNetworks]: string }
+  addresses: { [key in SupportedNetworks]?: string }
 }
 
 export type Position = {

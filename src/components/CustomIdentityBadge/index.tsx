@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Modal, TextInput, Button, IdentityBadge, Header, textStyle, useTheme, IconLabel } from '@aragon/ui'
 import { getPreference, storePreference } from '../../utils/storage'
 
-import { ZERO_ADDR } from '../../constants/addresses'
+import { ZERO_ADDR } from '../../constants'
 import { useConnectedWallet } from '../../contexts/wallet'
 
 type CustomIdentityBadgeProps = {

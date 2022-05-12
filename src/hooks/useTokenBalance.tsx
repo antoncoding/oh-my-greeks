@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import BigNumber from 'bignumber.js'
 import Web3 from 'web3'
 import { useConnectedWallet } from '../contexts/wallet'
-import { ZERO_ADDR } from '../constants/addresses'
+import { ZERO_ADDR } from '../constants'
 
 const erc20Abi = require('../constants/abis/erc20.json')
 

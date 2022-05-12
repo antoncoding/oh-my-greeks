@@ -1,8 +1,9 @@
-import Ethereum from '../imgs/Ethereum.png'
-import Optimism from '../imgs/op.png'
-import AVAX from '../imgs/WAVAX.webp'
-import Arbitrum from '../imgs/Arbitrum.svg'
-import Matic from '../imgs/matic.svg'
+import Optimism from '../imgs/chain-icons/optimism.png'
+import Arbitrum from '../imgs/chain-icons/arbitrum.svg'
+import Matic from '../imgs/chain-icons/matic.svg'
+
+import AVAX from '../imgs/token-icons/WAVAX.webp'
+import Ethereum from '../imgs/token-icons/Ethereum.png'
 
 export enum SupportedNetworks {
   Mainnet = 1,
