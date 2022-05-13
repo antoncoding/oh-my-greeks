@@ -16,6 +16,10 @@
 
 We need a place to see all my on-chain greeks.. aggregated nicely.
 
+## Hosting
+
+Currently hosting on [https://oh-my-greeks.netlify.app](https://oh-my-greeks.netlify.app/#/) and [ohmygreeks.on.fleek.co](ohmygreeks.on.fleek.co)
+
 ## Get Started
 
 ```shell
@@ -23,6 +27,10 @@ npm install
 
 npm start
 ```
+
+## Protocol Integration
+
+The interface is designed to be easy to plugin other option protocols / vol products. To be compliant, you need to implement the `adaptor` interface detailed [here](./src/adaptors/interface.ts)
 
 ## Contribute
 
