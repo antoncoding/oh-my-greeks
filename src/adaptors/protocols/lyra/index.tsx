@@ -4,10 +4,11 @@ import {
   Protocols,
   SupportedNetworks,
   UnderlyingAsset,
-  USDC,
   sETH,
   findTokenByAddress,
+  sUSD,
 } from '../../../constants'
+import BigNumber from 'bignumber.js'
 import { Position } from '../../../types'
 import { toTokenAmount } from '../../../utils/math'
 import { Adaptor } from '../../interface'
@@ -16,6 +17,7 @@ import {
   getAccountPositionsQuery,
   lyraPositionScale,
   lyraStrikeScale,
+  marketIdToPath,
   opSubgraph,
   underlyingToLyraBaseAsset,
 } from './constants'
@@ -49,6 +51,12 @@ export class LyraAdaptor implements Adaptor {
     return []
   }
 
+  getLinkToPosition(subgraphPositionId: string): undefined | string {
+    const [marketId, positionId] = subgraphPositionId.split('-')
+    const marketPath = marketIdToPath(marketId)
+    return `https://avalon.app.lyra.finance/position/${marketPath}/${positionId}`
+  }
+
   toPosition(lyraPosition: LyraPosition): Position {
     return {
       id: lyraPosition.id,
@@ -62,9 +70,9 @@ export class LyraAdaptor implements Adaptor {
       // todo: change these after mainnet, they won't work on testnet
       strike: findTokenByAddress(lyraPosition.market.baseAddress, SupportedNetworks.OpKovan),
       underlying: findTokenByAddress(lyraPosition.market.baseAddress, SupportedNetworks.OpKovan),
-      collateral: lyraPosition.isBaseCollateral ? sETH : USDC,
+      collateral: lyraPosition.isBaseCollateral ? sETH : sUSD,
       // collateral: findTokenByAddress(lyraPosition.isBaseCollateral ? lyraPosition.market.baseAddress : lyraPosition.market.quoteAddress, SupportedNetworks.Optimism),
-      collateralAmount: toTokenAmount(lyraPosition.collateral, lyraPositionScale),
+      collateralAmount: new BigNumber(lyraPosition.collateral),
     }
   }
 }

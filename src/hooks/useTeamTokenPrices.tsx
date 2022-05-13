@@ -30,7 +30,6 @@ export const getTokenPriceCoingecko = async (): Promise<CoinGeckoReturnStruct[]>
   const allIds = Object.values(Protocols)
     .map(protocol => protocolToAdaptor(protocol).teamToken.coingeckoId)
     .join(',')
-  console.log(`allIds`, allIds)
   const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${allIds}&price_change_percentage=1h%2C24h%2C7d&sparkline=false`
   const res = await fetch(url)
   const data: CoinGeckoReturnStruct[] = await res.json()

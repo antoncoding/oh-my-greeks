@@ -117,11 +117,11 @@ export const sUSD: Token = {
   name: 'synth USD',
   symbol: 'sUSD',
   asset: UnderlyingAsset.USD,
-  decimals: 6,
+  decimals: 18,
   img: require('../imgs/token-icons/sUSD.webp'), // need update
   addresses: {
     [SupportedNetworks.Mainnet]: '0x57ab1ec28d129707052df4df418d58a2d46d5f51',
-    [SupportedNetworks.OpKovan]: '0x1147b3f6eca313a5b3c2aa3fb85928104a5787d3',
+    [SupportedNetworks.OpKovan]: '0xd30a35282c2e2db07d9dac69bf3d45a975bc85d1',
     [SupportedNetworks.Optimism]: '0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9',
     [SupportedNetworks.Avalanche]: ZERO_ADDR,
     [SupportedNetworks.Matic]: ZERO_ADDR,

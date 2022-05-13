@@ -18,7 +18,6 @@ function HomePage() {
   const links = useMemo(() => {
     return Object.values(Protocols).map(protocol => {
       const adaptor = protocolToAdaptor(protocol)
-      console.log(`adaptor`, adaptor)
       return (
         <Col sm={6} md={4} lg={3} key={protocol}>
           <BoxButton

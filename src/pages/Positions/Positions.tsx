@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import BigNumber from 'bignumber.js'
-import { DataView, Info } from '@aragon/ui'
+import { DataView, Info, LinkBase } from '@aragon/ui'
 
 import SectionTitle from '../../components/SectionHeader'
 import TypeTag from '../../components/ActionBadge'
@@ -61,6 +61,7 @@ export default function Positions({
   const renderPositionRow = useCallback(
     (position: Position & { delta: number; gamma: number; vega: number; theta: number }) => {
       const adaptor = protocolToAdaptor(position.protocol)
+      const positionLink = adaptor.getLinkToPosition(position.id)
       const sign = position.direction === Direction.Long ? 1 : -1
       return [
         DirectionBlock(position.direction),
@@ -74,13 +75,23 @@ export default function Positions({
         GreekBlock(position.amount.times(position.theta).times(sign).toFixed(4)),
         position.collateral && position.collateralAmount.gt(0)
           ? secondary(
-              `${toTokenAmount(position.collateralAmount, position.collateral.decimals)} ${position.collateral.symbol}`,
+              `${toTokenAmount(position.collateralAmount, position.collateral.decimals).decimalPlaces(2).toNumber()} ${
+                position.collateral.symbol
+              }`,
             )
           : '-',
-        <div>
+        <LinkBase
+          onClick={
+            positionLink
+              ? () => {
+                  window.open(positionLink, '_blank')
+                }
+              : null
+          }
+        >
           <img src={adaptor.img} height={25} alt={position.protocol} />
           <img src={networkToLogo[position.chainId]} height={25} alt={position.protocol} />
-        </div>,
+        </LinkBase>,
       ]
     },
     [],

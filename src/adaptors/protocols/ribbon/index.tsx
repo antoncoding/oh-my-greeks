@@ -15,6 +15,10 @@ export class RibbonAdaptor implements Adaptor {
   async getUserNonERC20Tokens(account: string) {
     return []
   }
+
+  getLinkToPosition(positionId: string): undefined | string {
+    return undefined
+  }
 }
 
 export default RibbonAdaptor

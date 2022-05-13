@@ -48,6 +48,10 @@ export class PremiaAdaptor implements Adaptor {
     return []
   }
 
+  getLinkToPosition(positionId: string): undefined | string {
+    return `https://app.premia.finance/positions`
+  }
+
   premiaTokenToPosition(position: UserOwnedTokenType, network: SupportedNetworks): Position {
     return {
       id: position.id,

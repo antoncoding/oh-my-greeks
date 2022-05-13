@@ -33,9 +33,11 @@ export async function getAllPositionsByUnderlying(account: string, underlying: U
     const positions = await protocolToAdaptor(protocol).getPositionsByUnderlying(account, underlying)
     result = result.concat(positions)
   }
-  return result.filter(position => {
-    return showTestnet || isMainnet[position.chainId]
-  })
+  return result
+    .filter(position => {
+      return showTestnet || isMainnet[position.chainId]
+    })
+    .filter(position => position.amount.gt(0.005))
 }
 
 /**

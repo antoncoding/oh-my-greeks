@@ -19,6 +19,8 @@ export interface Adaptor {
   getUserNonERC20Tokens(
     account: string,
   ): Promise<{ token: TeamToken; balance: BigNumber; networkId: SupportedNetworks }[]>
+
+  getLinkToPosition(positionId: string): undefined | string
 }
 
 export class EmptyAdaptor implements Adaptor {
@@ -36,5 +38,9 @@ export class EmptyAdaptor implements Adaptor {
     account: string,
   ): Promise<{ token: TeamToken; balance: BigNumber; networkId: SupportedNetworks }[]> {
     return []
+  }
+
+  getLinkToPosition(positionId: string): undefined | string {
+    return undefined
   }
 }
