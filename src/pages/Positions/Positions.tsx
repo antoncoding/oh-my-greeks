@@ -36,22 +36,32 @@ export default function Positions({
     return positions.map(position => {
       // todo: use implied vol for each strike?
       const greeks = getPositionGreeks(spotPrice, position.strikePrice, position.expiry, vol / 100, position.type)
+
+      const collateralIsUnderlying = position.collateral && position.collateral.asset === underlying
+      const collateralDelta = collateralIsUnderlying
+        ? toTokenAmount(position.collateralAmount, position.collateral.decimals).toNumber()
+        : 0
+
+      const sign = position.direction === Direction.Long ? 1 : -1
+
       return {
         ...position,
         ...greeks,
+        sign,
+        collateralDelta,
       }
     })
-  }, [positions, spotPrice, vol])
+  }, [positions, spotPrice, vol, underlying])
 
   const aggregatedGreeks = useMemo(() => {
     return positionWithGreeks.reduce(
       (prev, curr) => {
         return {
-          delta: prev.delta + curr.amount.times(curr.delta).toNumber(),
-          gamma: prev.gamma + curr.amount.times(curr.gamma).toNumber(),
-          theta: prev.theta + curr.amount.times(curr.theta).toNumber(),
-          vega: prev.vega + curr.amount.times(curr.vega).toNumber(),
-          rho: prev.rho + curr.amount.times(curr.rho).toNumber(),
+          delta: prev.delta + curr.amount.times(curr.delta).times(curr.sign).toNumber() + curr.collateralDelta,
+          gamma: prev.gamma + curr.amount.times(curr.gamma).times(curr.sign).toNumber(),
+          theta: prev.theta + curr.amount.times(curr.theta).times(curr.sign).toNumber(),
+          vega: prev.vega + curr.amount.times(curr.vega).times(curr.sign).toNumber(),
+          rho: prev.rho + curr.amount.times(curr.rho).times(curr.sign).toNumber(),
         }
       },
       { delta: 0, gamma: 0, vega: 0, theta: 0, rho: 0 },
@@ -59,24 +69,32 @@ export default function Positions({
   }, [positionWithGreeks])
 
   const renderPositionRow = useCallback(
-    (position: Position & { delta: number; gamma: number; vega: number; theta: number }) => {
-      const adaptor = protocolToAdaptor(position.protocol)
-      const positionLink = adaptor.getLinkToPosition(position.id)
-      const sign = position.direction === Direction.Long ? 1 : -1
+    (
+      p: Position & {
+        delta: number
+        gamma: number
+        vega: number
+        theta: number
+        sign: number
+        collateralDelta: number
+      },
+    ) => {
+      const adaptor = protocolToAdaptor(p.protocol)
+      const positionLink = adaptor.getLinkToPosition(p.id)
       return [
-        DirectionBlock(position.direction),
-        <TypeTag type={position.type} />,
-        secondary(`${position.strikePrice.integerValue().toString()}`),
-        secondary(showExpiryText(position.expiry)),
-        Size(position.amount, position.direction),
-        GreekBlock(position.amount.times(position.delta).times(sign).toFixed(4)), // delta
-        GreekBlock(position.amount.times(position.gamma).times(sign).toFixed(5)), // gamma
-        GreekBlock(position.amount.times(position.vega).times(sign).toFixed(4)),
-        GreekBlock(position.amount.times(position.theta).times(sign).toFixed(4)),
-        position.collateral && position.collateralAmount.gt(0)
+        DirectionBlock(p.direction),
+        <TypeTag type={p.type} />,
+        secondary(`${p.strikePrice.integerValue().toString()}`),
+        secondary(showExpiryText(p.expiry)),
+        Size(p.amount, p.direction),
+        GreekBlock(p.amount.times(p.delta).times(p.sign).plus(p.collateralDelta).toFixed(4)), // delta
+        GreekBlock(p.amount.times(p.gamma).times(p.sign).toFixed(5)), // gamma
+        GreekBlock(p.amount.times(p.vega).times(p.sign).toFixed(4)),
+        GreekBlock(p.amount.times(p.theta).times(p.sign).toFixed(4)),
+        p.collateral && p.collateralAmount.gt(0)
           ? secondary(
-              `${toTokenAmount(position.collateralAmount, position.collateral.decimals).decimalPlaces(2).toNumber()} ${
-                position.collateral.symbol
+              `${toTokenAmount(p.collateralAmount, p.collateral.decimals).decimalPlaces(2).toNumber()} ${
+                p.collateral.symbol
               }`,
             )
           : '-',
@@ -89,8 +107,8 @@ export default function Positions({
               : null
           }
         >
-          <img src={adaptor.img} height={25} alt={position.protocol} />
-          <img src={networkToLogo[position.chainId]} height={25} alt={position.protocol} />
+          <img src={adaptor.img} height={25} alt={p.protocol} />
+          <img src={networkToLogo[p.chainId]} height={25} alt={p.protocol} />
         </LinkBase>,
       ]
     },
@@ -125,7 +143,7 @@ export default function Positions({
       />
       <DataView
         status={isLoadingBalance ? 'loading' : 'default'}
-        fields={['delta', 'gamma', 'vega', 'theta', 'rho', 'collateral']}
+        fields={['delta', 'gamma', 'vega', 'theta', 'rho']}
         emptyState={POSITIONS}
         entries={[aggregatedGreeks]}
         tableRowHeight={47}

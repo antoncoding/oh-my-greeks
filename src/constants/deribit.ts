@@ -8,9 +8,6 @@ export const assetToPairString = (asset: UnderlyingAsset) => {
       return 'btc_usd'
     case UnderlyingAsset.ETH:
       return 'eth_usd'
-    // case UnderlyingAsset.LINK:
-    case UnderlyingAsset.LUNA:
-      return 'luna-usd'
     default: {
       console.log('Using Default vol: ETH')
       return 'eth_usd'
