@@ -9,6 +9,7 @@ import { getPreference } from '../utils/storage'
 import BigNumber from 'bignumber.js'
 import Web3 from 'web3'
 import RibbonAdaptor from './protocols/ribbon'
+import OpynAdaptor from './protocols/opyn'
 
 const ERC20Abi = require('../constants/abis/erc20.json')
 
@@ -16,6 +17,7 @@ export function protocolToAdaptor(protocol: Protocols): Adaptor {
   if (protocol === Protocols.Lyra) return new LyraAdaptor()
   if (protocol === Protocols.Premia) return new PremiaAdaptor()
   if (protocol === Protocols.Ribbon) return new RibbonAdaptor()
+  if (protocol === Protocols.Opyn) return new OpynAdaptor()
   return new EmptyAdaptor()
 }
 
@@ -37,7 +39,7 @@ export async function getAllPositionsByUnderlying(account: string, underlying: U
     .filter(position => {
       return showTestnet || isMainnet[position.chainId]
     })
-    .filter(position => position.amount.gt(0.005))
+    .filter(position => position.amount.gt(0.001))
 }
 
 /**

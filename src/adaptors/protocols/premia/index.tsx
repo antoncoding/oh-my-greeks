@@ -66,6 +66,7 @@ export class PremiaAdaptor implements Adaptor {
       collateral: undefined,
       underlying: WETH,
       collateralAmount: new BigNumber(0),
+      additionalData: undefined,
     }
   }
 }

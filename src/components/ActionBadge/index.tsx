@@ -6,8 +6,10 @@ import { OptionType } from '../../constants'
 export default function OptionTypeToTag({ type }: { type: OptionType }) {
   if (type === OptionType.Call) {
     return CallTag()
-  } else {
+  } else if (type === OptionType.Put) {
     return PutTag()
+  } else if (type === OptionType.PowerPerp) {
+    return PowerPerpTag()
   }
 }
 
@@ -34,6 +36,10 @@ export function CallTag() {
       Call{' '}
     </Tag>
   )
+}
+
+export function PowerPerpTag() {
+  return <Tag size="normal">Squeeth </Tag>
 }
 
 // export function WithdrawCollateralBadge() {

@@ -33,6 +33,7 @@ export type Position = {
   collateral?: Token
   chainId: SupportedNetworks
   collateralAmount: BigNumber
+  additionalData: any | undefined
 }
 
 // represent one user's position on the team token

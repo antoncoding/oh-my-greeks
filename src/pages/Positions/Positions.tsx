@@ -35,7 +35,14 @@ export default function Positions({
   const positionWithGreeks = useMemo(() => {
     return positions.map(position => {
       // todo: use implied vol for each strike?
-      const greeks = getPositionGreeks(spotPrice, position.strikePrice, position.expiry, vol / 100, position.type)
+      const greeks = getPositionGreeks(
+        spotPrice,
+        position.strikePrice,
+        position.expiry,
+        vol / 100,
+        position.type,
+        position.additionalData,
+      )
 
       const collateralIsUnderlying = position.collateral && position.collateral.asset === underlying
       const collateralDelta = collateralIsUnderlying
@@ -84,7 +91,7 @@ export default function Positions({
       return [
         DirectionBlock(p.direction),
         <TypeTag type={p.type} />,
-        secondary(`${p.strikePrice.integerValue().toString()}`),
+        secondary(p.strikePrice.isZero() ? '-' : `${p.strikePrice.integerValue().toString()}`),
         secondary(showExpiryText(p.expiry)),
         Size(p.amount, p.direction),
         GreekBlock(p.amount.times(p.delta).times(p.sign).plus(p.collateralDelta).toFixed(4)), // delta

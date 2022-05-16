@@ -11,7 +11,24 @@ export function getPositionGreeks(
   expiry: number,
   vol: number,
   type: OptionType,
+  additionalData: any | undefined,
 ) {
+  if (type === OptionType.PowerPerp) {
+    const fundingPeriod = 0.04794520548
+    const normFactor = additionalData as number
+    const scalingFactor = 10000
+
+    const priceUSD = (normFactor * spot.pow(2).toNumber() * Math.exp(vol * vol * fundingPeriod)) / scalingFactor
+
+    const delta = (2 * normFactor * spot.toNumber() * Math.exp(vol * vol * fundingPeriod)) / scalingFactor
+    const gamma = 2 * normFactor * Math.exp(vol * vol * fundingPeriod)
+    const vega = 2 * vol * fundingPeriod * priceUSD
+    const theta = vol * vol * priceUSD
+    const rho = 0
+    return { delta, gamma, vega, theta, rho }
+  }
+  // put or call
+
   const now = Date.now() / 1000
   const timeToExpiryInYear = (expiry - now) / (86400 * 365)
   const typeStr = type === OptionType.Call ? 'call' : 'put'

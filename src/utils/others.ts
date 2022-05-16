@@ -27,6 +27,7 @@ export const isEOA = async (address: string, networkId: number): Promise<Boolean
 }
 
 export const showExpiryText = (expiry: number) => {
+  if (expiry === 0) return '-'
   // Wed, 01 Jun 2022 06:00:00 GMT
   const string = new Date(expiry * 1000).toUTCString()
   const pieces = string.split(' ')

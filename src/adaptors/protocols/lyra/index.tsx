@@ -73,6 +73,7 @@ export class LyraAdaptor implements Adaptor {
       collateral: lyraPosition.isBaseCollateral ? sETH : sUSD,
       // collateral: findTokenByAddress(lyraPosition.isBaseCollateral ? lyraPosition.market.baseAddress : lyraPosition.market.quoteAddress, SupportedNetworks.Optimism),
       collateralAmount: new BigNumber(lyraPosition.collateral),
+      additionalData: undefined,
     }
   }
 }
