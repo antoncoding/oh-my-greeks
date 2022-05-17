@@ -166,10 +166,6 @@ export default function Positions({
       />
       <br />
       <Info mode="info" title="Beta version">
-        <div> * You can enable / disable Lyra Avalon tests positions in settings.</div>
-        <div> * Premia short positions are not parsed. </div>
-      </Info>
-      <Info mode="warning" title="Beta version">
         All greeks are calculated with ATM vol {vol}%
       </Info>
     </>

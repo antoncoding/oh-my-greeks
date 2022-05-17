@@ -1,4 +1,4 @@
-import { sETH, sBTC, SupportedNetworks, UnderlyingAsset } from '../../../constants'
+import { sETH, sBTC, SupportedNetworks, UnderlyingAsset, sLINK } from '../../../constants'
 import { Token } from '../../../types'
 
 export const lyraStrikeScale = 18
@@ -7,13 +7,13 @@ export const lyraPositionScale = 18
 export const lyraSupportedNetworks = [SupportedNetworks.OpKovan]
 
 export const marketIdToPathMap: { [key: string]: string } = {
-  '0x4a3f1d1bdb5ed10a813f032fe906c73baf0bc5a2': 'eth', // testnet kovan
+  '0xf24ecf73fd8e7fc9d8f94cd9df4f03107704d309': 'eth', // testnet kovan
 }
 
 export const underlyingToLyraBaseAsset = (asset: UnderlyingAsset): Token | undefined => {
   if (asset === UnderlyingAsset.ETH) return sETH
   if (asset === UnderlyingAsset.BTC) return sBTC
-  if (asset === UnderlyingAsset.LINK) return sBTC
+  if (asset === UnderlyingAsset.LINK) return sLINK
 }
 
 export const marketIdToPath = (marketId: string) => {
@@ -21,8 +21,7 @@ export const marketIdToPath = (marketId: string) => {
   return marketIdToPathMap[marketId] || defaultPath
 }
 
-// todo: change this to production
-export const opSubgraph = 'https://api.thegraph.com/subgraphs/name/lyra-finance/kovan'
+export const opSubgraph = 'https://api.thegraph.com/subgraphs/name/lyra-finance/mainnet'
 
 export const getAccountPositionsQuery = (address: string) => {
   return `
