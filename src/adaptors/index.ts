@@ -36,9 +36,7 @@ export async function getAllPositionsByUnderlying(account: string, underlying: U
     result = result.concat(positions)
   }
   return result
-    .filter(position => {
-      return showTestnet || isMainnet[position.chainId]
-    })
+    .filter(position => showTestnet || isMainnet[position.chainId])
     .filter(position => position.amount.gt(0.001))
 }
 

@@ -36,10 +36,13 @@ export class LyraAdaptor implements Adaptor {
     const lyraPositions = (await querySubgraph(opSubgraph, getAccountPositionsQuery(account)))[
       'positions'
     ] as LyraPosition[]
-    return lyraPositions
+
+    const result = lyraPositions
       .map(p => this.toPosition(p))
       .filter(p => p.amount.gt(0))
       .filter(p => underlyingToLyraBaseAsset(underlying) === p.underlying)
+
+    return result
   }
 
   /**
@@ -60,7 +63,7 @@ export class LyraAdaptor implements Adaptor {
   toPosition(lyraPosition: LyraPosition): Position {
     return {
       id: lyraPosition.id,
-      chainId: SupportedNetworks.OpKovan,
+      chainId: SupportedNetworks.Optimism,
       protocol: Protocols.Lyra,
       strikePrice: toTokenAmount(lyraPosition.strike.strikePrice, lyraStrikeScale),
       expiry: lyraPosition.board.expiryTimestamp,
@@ -68,8 +71,8 @@ export class LyraAdaptor implements Adaptor {
       direction: lyraPosition.isLong ? Direction.Long : Direction.Short, // long or short
       amount: toTokenAmount(lyraPosition.size, lyraPositionScale),
       // todo: change these after mainnet, they won't work on testnet
-      strike: findTokenByAddress(lyraPosition.market.baseAddress, SupportedNetworks.OpKovan),
-      underlying: findTokenByAddress(lyraPosition.market.baseAddress, SupportedNetworks.OpKovan),
+      strike: findTokenByAddress(lyraPosition.market.quoteAddress, SupportedNetworks.Optimism),
+      underlying: findTokenByAddress(lyraPosition.market.baseAddress, SupportedNetworks.Optimism),
       collateral: lyraPosition.isBaseCollateral ? sETH : sUSD,
       // collateral: findTokenByAddress(lyraPosition.isBaseCollateral ? lyraPosition.market.baseAddress : lyraPosition.market.quoteAddress, SupportedNetworks.Optimism),
       collateralAmount: new BigNumber(lyraPosition.collateral),
