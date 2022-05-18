@@ -45,6 +45,7 @@ export const sortByExpiryThanStrike = (a: Position, b: Position) => {
   if (Number(a.expiry) > Number(b.expiry)) return 1
   else if (Number(a.expiry) > Number(b.expiry)) return -1
   else if (Number(a.strikePrice) > Number(b.strikePrice)) return 1
+  else if (Number(a.amount) > Number(b.amount)) return 1
   else return -1
 }
 
