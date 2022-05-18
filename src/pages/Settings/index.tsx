@@ -3,7 +3,7 @@ import Header from '../../components/Header'
 import StyledContainer from '../../components/StyledContainer'
 import ThemeSwitch from './Theme'
 import ApproveSwitch from './Approval'
-// import TestnetSwitch from './TestnetSwitch'
+import DustSetting from './DustSetting'
 import ClearCache from './ClearCache'
 
 function Settings({ setTheme }: { setTheme: any }) {
@@ -12,9 +12,9 @@ function Settings({ setTheme }: { setTheme: any }) {
       <Header primary="Settings" />
       <ThemeSwitch setTheme={setTheme} />
       <br />
-      {/* <TestnetSwitch /> */}
-      {/* <br /> */}
       <ApproveSwitch />
+      <br />
+      <DustSetting />
       <br />
       {/* <ZeroXFee />
       <br /> */}

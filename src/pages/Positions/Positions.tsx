@@ -13,9 +13,12 @@ import { POSITIONS } from '../../constants/dataviewContents'
 
 import { secondary, green, red } from '../../components/StyleDiv'
 import { Position } from '../../types'
-import { Direction, networkToLogo, UnderlyingAsset } from '../../constants'
+import { Direction, DUST_AMOUNT, networkToLogo, UnderlyingAsset } from '../../constants'
 import { getPositionGreeks, toTokenAmount } from '../../utils/math'
 import { protocolToAdaptor } from '../../adaptors'
+import { getPreference } from '../../utils/storage'
+
+const digits = getPreference(DUST_AMOUNT, '0.01').split('.')[1].length
 
 export default function Positions({
   account,
@@ -173,7 +176,7 @@ export default function Positions({
 }
 
 function Size(payout: BigNumber, direction: Direction): JSX.Element {
-  const text = direction === Direction.Long ? green(payout.toFixed(2)) : red(payout.toFixed(2))
+  const text = direction === Direction.Long ? green(payout.toFormat(digits)) : red(payout.toFormat(digits))
   return <div style={{ paddingRight: '5px', fontSize: 16 }}> {text} </div>
 }
 

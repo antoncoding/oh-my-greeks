@@ -1,4 +1,12 @@
-import { isMainnet, networkToProvider, Protocols, SHOW_TESTNET, SupportedNetworks, UnderlyingAsset } from '../constants'
+import {
+  DUST_AMOUNT,
+  isMainnet,
+  networkToProvider,
+  Protocols,
+  SHOW_TESTNET,
+  SupportedNetworks,
+  UnderlyingAsset,
+} from '../constants'
 import { Position, UserTeamTokenBalance } from '../types'
 
 import PremiaAdaptor from './protocols/premia'
@@ -37,7 +45,7 @@ export async function getAllPositionsByUnderlying(account: string, underlying: U
   }
   return result
     .filter(position => showTestnet || isMainnet[position.chainId])
-    .filter(position => position.amount.gt(0.001))
+    .filter(position => position.amount.gte(Number(getPreference(DUST_AMOUNT, '0.01'))))
 }
 
 /**
