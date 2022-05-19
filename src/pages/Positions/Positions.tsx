@@ -118,6 +118,12 @@ export default function Positions({
           }
         >
           <img src={adaptor.img} height={25} alt={p.protocol} />
+
+          {/* temp: add euler icon if its a euler position */}
+          {p.id.includes('euler') && (
+            <img src={require('../../imgs/protocol-icons/euler.svg')} height={25} alt={p.protocol} />
+          )}
+
           <img src={networkToLogo[p.chainId]} height={25} alt={p.protocol} />
         </LinkBase>,
       ]

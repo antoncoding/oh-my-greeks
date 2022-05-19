@@ -120,7 +120,7 @@ export class OpynAdaptor implements Adaptor {
       if (eulerPosition.amount.gt(0)) {
         // return long position with no collateral
         return {
-          id: `euler-long`,
+          id: `euler-${eulerAccount.account}`,
           chainId: SupportedNetworks.Mainnet,
           protocol: Protocols.Opyn,
           strikePrice: new BigNumber(0),
@@ -154,7 +154,7 @@ export class OpynAdaptor implements Adaptor {
       }
 
       return {
-        id: `euler-long`,
+        id: `euler-${eulerAccount.account}`,
         chainId: SupportedNetworks.Mainnet,
         protocol: Protocols.Opyn,
         strikePrice: new BigNumber(0),
