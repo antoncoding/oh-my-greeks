@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { SupportedNetworks, UnderlyingAsset } from '../constants'
 import { TeamToken, Position } from '../types'
+import { AdditionalData } from './common'
 
 export interface Adaptor {
   // fetch user balance of your team token.
@@ -13,7 +14,11 @@ export interface Adaptor {
   url: string
 
   // get list of "positions"
-  getPositionsByUnderlying(account: string, underlying: UnderlyingAsset): Promise<Position[]>
+  getPositionsByUnderlying(
+    account: string,
+    underlying: UnderlyingAsset,
+    additionalData?: AdditionalData,
+  ): Promise<Position[]>
 
   // return list of staked or locked tokens a user has
   getUserNonERC20Tokens(

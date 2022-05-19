@@ -18,6 +18,7 @@ import BigNumber from 'bignumber.js'
 import Web3 from 'web3'
 import RibbonAdaptor from './protocols/ribbon'
 import OpynAdaptor from './protocols/opyn'
+import { getAdditionalData } from './common'
 
 const ERC20Abi = require('../constants/abis/erc20.json')
 
@@ -36,13 +37,22 @@ export function protocolToAdaptor(protocol: Protocols): Adaptor {
  * @returns
  */
 export async function getAllPositionsByUnderlying(account: string, underlying: UnderlyingAsset): Promise<Position[]> {
-  const showTestnet = getPreference(SHOW_TESTNET, 'true') === 'true'
+  // get commonly used data. (for now, euler positions)
+  const additionalData = await getAdditionalData(account)
 
+  // iterate through all protocols and find get positions
   let result: Position[] = []
   for (const protocol of Object.values(Protocols)) {
-    const positions = await protocolToAdaptor(protocol).getPositionsByUnderlying(account, underlying)
-    result = result.concat(positions)
+    try {
+      const positions = await protocolToAdaptor(protocol).getPositionsByUnderlying(account, underlying, additionalData)
+      result = result.concat(positions)
+    } catch (error) {
+      console.log(`error`, error)
+      console.log(`Fetching ${protocol} position error`)
+    }
   }
+
+  const showTestnet = getPreference(SHOW_TESTNET, 'true') === 'true'
   return result
     .filter(position => showTestnet || isMainnet[position.chainId])
     .filter(position => position.amount.gte(Number(getPreference(DUST_AMOUNT, '0.01'))))

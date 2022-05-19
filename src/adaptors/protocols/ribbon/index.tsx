@@ -1,4 +1,5 @@
 import { ribbon } from '../../../constants/teamTokens'
+import { AdditionalData } from '../../common'
 import { Adaptor } from '../../interface'
 
 export class RibbonAdaptor implements Adaptor {
@@ -8,7 +9,7 @@ export class RibbonAdaptor implements Adaptor {
 
   url = 'https://www.ribbon.finance/'
 
-  async getPositionsByUnderlying(account: string, underlying) {
+  async getPositionsByUnderlying(account: string, underlying, additionalData: AdditionalData) {
     return []
   }
 

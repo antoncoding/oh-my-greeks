@@ -23,6 +23,7 @@ import {
 } from './constants'
 import { lyra } from '../../../constants/teamTokens'
 import { LyraPosition } from './types'
+import { AdditionalData } from '../../common'
 
 export class LyraAdaptor implements Adaptor {
   teamToken = lyra
@@ -31,7 +32,11 @@ export class LyraAdaptor implements Adaptor {
 
   url = 'https://www.lyra.finance/'
 
-  async getPositionsByUnderlying(account: string, underlying: UnderlyingAsset): Promise<Position[]> {
+  async getPositionsByUnderlying(
+    account: string,
+    underlying: UnderlyingAsset,
+    additionalData?: AdditionalData,
+  ): Promise<Position[]> {
     // todo: optimize query to filter non-underlying result from subgraph
     const lyraPositions = (await querySubgraph(opSubgraph, getAccountPositionsQuery(account)))[
       'positions'
