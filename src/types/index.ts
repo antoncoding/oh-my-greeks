@@ -43,4 +43,5 @@ export type UserTeamTokenBalance = {
   balance: BigNumber
   isLocked: boolean
   networkId: SupportedNetworks
+  additionalIcons?: string[]
 }

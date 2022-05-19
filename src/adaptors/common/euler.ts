@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { querySubgraph } from '../utils'
 
 export type EulerAccountBalancesSubgraph = {
-  account: string
+  id: string
   balances: {
     amount: string
     asset: {
@@ -33,7 +33,7 @@ export async function getEulerData(account: string): Promise<EulerAccountBalance
   //
   const mergedAccount = eulerAccounts.map(account => {
     return {
-      account: account.account,
+      account: account.id,
       balances: account.balances.map(b => {
         return { asset: b.asset, amount: new BigNumber(b.amount) }
       }),
@@ -48,6 +48,7 @@ function getAccountQuery(account: string): string {
     accounts (where:{
       topLevelAccount: "${account}"
     }) {
+      id
       balances {
         amount
         asset {

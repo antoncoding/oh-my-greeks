@@ -37,6 +37,7 @@ export default function TokenTable({ account }: { account: string }) {
           token: balanceInfo.token,
           networkId: balanceInfo.networkId,
           protocol: balanceInfo.protocol,
+          additionalIcons: balanceInfo.additionalIcons,
         }
       })
       .sort((a, b) => (a.value.gt(b.value) ? -1 : 1))
@@ -51,7 +52,13 @@ export default function TokenTable({ account }: { account: string }) {
       secondary(`$${entry.price.toFixed(4)}`),
       PercentageChangeBlock(entry.percentageChangeDay),
       PercentageChangeBlock(entry.percentageChangeWeek),
-      <img src={networkToLogo[entry.networkId]} alt={entry.protocol} height={26} />,
+      <div>
+        {/* block to show network logo and also 'additionalIcons' */}
+        {entry.additionalIcons?.map(icon => (
+          <img key={icon} src={icon} alt={icon} height={20} />
+        ))}
+        <img src={networkToLogo[entry.networkId]} alt={entry.protocol} height={26} />
+      </div>,
     ]
   }, [])
 

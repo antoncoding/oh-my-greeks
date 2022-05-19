@@ -63,11 +63,16 @@ export async function getAllPositionsByUnderlying(account: string, underlying: U
  */
 export async function getTeamTokenBalances(account: string): Promise<UserTeamTokenBalance[]> {
   let result: UserTeamTokenBalance[] = []
+
+  // process additional data
+  const { euler } = await getAdditionalData(account)
+
   for (const protocol of Object.values(Protocols)) {
     // get erc20 balance
     const token = protocolToAdaptor(protocol).teamToken
     if (!token) continue
 
+    // check account token balance
     for (const network of Object.keys(token.addresses)) {
       const web3 = new Web3(networkToProvider[network])
       const contract = new web3.eth.Contract(ERC20Abi, token.addresses[network])
@@ -83,7 +88,25 @@ export async function getTeamTokenBalances(account: string): Promise<UserTeamTok
         })
     }
 
-    // todo: get non-erc20s (staked or locked tokens)
+    // if user's euler sub-accounts
+    let eulerBalance = new BigNumber(0)
+    for (const subaccount of euler) {
+      for (const balance of subaccount.balances) {
+        const isProjectToken = Object.values(token.addresses).includes(balance.asset.id)
+        if (isProjectToken) eulerBalance = eulerBalance.plus(balance.amount)
+      }
+    }
+    if (eulerBalance.gt(0)) {
+      result.push({
+        protocol: protocol,
+        balance: eulerBalance,
+        token,
+        networkId: SupportedNetworks.Mainnet,
+        isLocked: false,
+        additionalIcons: [require('../imgs/protocol-icons/euler.svg')],
+      })
+    }
+    // todo: what to do when balance is negative?
   }
   return result
 }
