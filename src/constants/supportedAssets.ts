@@ -173,18 +173,18 @@ export const sLINK: Token = {
   },
 }
 
-// export const LUNA: Token = {
-//   name: 'Wrapped Luna Token',
-//   symbol: 'LUNA',
-//   asset: UnderlyingAsset.LUNA,
-//   decimals: 18,
-//   img: require('../imgs/token-icons/LUNA.png'),
-//   addresses: {
-//     [SupportedNetworks.Mainnet]: '0xd2877702675e6ceb975b4a1dff9fb7baf4c91ea9',
-//   },
-// }
+export const stETH: Token = {
+  name: 'Lido Staked ETH',
+  symbol: 'stETH',
+  asset: UnderlyingAsset.ETH,
+  decimals: 18,
+  img: require('../imgs/token-icons/stETH.webp'),
+  addresses: {
+    [SupportedNetworks.Mainnet]: '0xae7ab96520de3a18e5e111b5eaab095312d7fe84',
+  },
+}
 
-export const allTokens = [ETH, WETH, WBTC, USDC, LINK, DAI, sETH, sBTC, sLINK]
+export const allTokens = [ETH, WETH, WBTC, USDC, LINK, DAI, sETH, sBTC, sLINK, stETH]
 
 export function findLinkedAssetByAddress(address: string, networkId: SupportedNetworks) {
   for (const token of allTokens) {
