@@ -62,7 +62,7 @@ export class LyraAdaptor implements Adaptor {
   getLinkToPosition(subgraphPositionId: string): undefined | string {
     const [marketId, positionId] = subgraphPositionId.split('-')
     const marketPath = marketIdToPath(marketId)
-    return `https://avalon.app.lyra.finance/position/${marketPath}/${positionId}`
+    return `https://app.lyra.finance/position/${marketPath}/${positionId}`
   }
 
   toPosition(lyraPosition: LyraPosition): Position {
@@ -75,7 +75,6 @@ export class LyraAdaptor implements Adaptor {
       type: lyraPosition.option.isCall ? OptionType.Call : OptionType.Put, // call or put
       direction: lyraPosition.isLong ? Direction.Long : Direction.Short, // long or short
       amount: toTokenAmount(lyraPosition.size, lyraPositionScale),
-      // todo: change these after mainnet, they won't work on testnet
       strike: findTokenByAddress(lyraPosition.market.quoteAddress, SupportedNetworks.Optimism),
       underlying: findTokenByAddress(lyraPosition.market.baseAddress, SupportedNetworks.Optimism),
       collateral: lyraPosition.isBaseCollateral ? sETH : sUSD,
