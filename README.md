@@ -18,7 +18,7 @@ We need a place to see all my on-chain greeks.. aggregated nicely.
 
 ## Hosting
 
-Currently hosting on [https://oh-my-greeks.netlify.app](https://oh-my-greeks.netlify.app/#/) and [ohmygreeks.on.fleek.co](ohmygreeks.on.fleek.co)
+Currently hosting on [https://ohmygreeks.co/#/](https://ohmygreeks.co/#/) and [ohmygreeks.on.fleek.co](ohmygreeks.on.fleek.co)
 
 ## Get Started
 
