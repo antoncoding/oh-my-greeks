@@ -32,7 +32,7 @@ export const mergeGreeks = (greekArray: GreeksAndCollateral[]): Greeks => {
   return greekArray.reduce(
     (prev, curr) => {
       return {
-        delta: prev.delta + curr.delta + curr.collateralDelta || 0,
+        delta: prev.delta + curr.delta + (curr.collateralDelta || 0),
         gamma: prev.gamma + curr.gamma,
         theta: prev.theta + curr.theta,
         vega: prev.vega + curr.vega,
@@ -50,6 +50,16 @@ export const showExpiryText = (expiry: number) => {
   const pieces = string.split(' ')
   const time = pieces[4]
   pieces[4] = time.slice(0, 5)
+  return pieces.join(' ')
+}
+
+export const showExpiryShort = (expiry: number) => {
+  if (expiry === 0) return '-'
+  // Wed, 01 Jun 2022 06:00:00 GMT
+  const string = new Date(expiry * 1000).toUTCString()
+  const pieces = string.split(' ').slice(1, 4)
+  // const time = pieces[4]
+  // pieces[4] = time.slice(0, 5)
   return pieces.join(' ')
 }
 
