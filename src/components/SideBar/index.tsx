@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useTheme, IconHome, IconGrid, IconCoin, IconDashedSquare } from '@aragon/ui'
+import { useTheme, IconHome, IconGrid, IconCoin } from '@aragon/ui'
 import SidebarTitle from './SidebarTitle'
 
 import { useConnectedWallet } from '../../contexts/wallet'
@@ -49,22 +49,13 @@ export default function SideBar() {
           isSelected={selectedTab === 2}
         />
         <SidebarTitle
-          title="DOVs"
-          icon={<IconDashedSquare />}
-          onClick={() => {
-            history.push(`/dovs/${user}`)
-            setSelectedTab(3)
-          }}
-          isSelected={selectedTab === 3}
-        />
-        <SidebarTitle
           title="Tokens"
           icon={<IconCoin />}
           onClick={() => {
             history.push(`/tokens/${user}`)
-            setSelectedTab(4)
+            setSelectedTab(3)
           }}
-          isSelected={selectedTab === 4}
+          isSelected={selectedTab === 3}
         />
       </div>
     </div>
@@ -76,9 +67,7 @@ function locationToTabId(location) {
     ? 1
     : location.pathname.includes('/positions/')
     ? 2
-    : location.pathname.includes('/dovs/')
-    ? 3
     : location.pathname.includes('/tokens/')
-    ? 4
+    ? 3
     : -1
 }

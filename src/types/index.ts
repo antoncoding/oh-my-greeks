@@ -9,6 +9,14 @@ export type ERC20 = {
   addresses: { [key in SupportedNetworks]?: string }
 }
 
+export type Greeks = {
+  delta: number
+  gamma: number
+  vega: number
+  theta: number
+  rho: number
+}
+
 export type TeamToken = ERC20 & {
   coingeckoId: string
   themeColor: string
@@ -56,6 +64,11 @@ export type DovPosition = {
   collateralAmount: BigNumber
   additionalData: any | undefined
 }
+
+export type PlainOptionWithGreeks = Position &
+  Greeks & {
+    collateralDelta: number
+  }
 
 // represent one user's position on the team token
 export type UserTeamTokenBalance = {

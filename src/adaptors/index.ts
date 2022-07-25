@@ -77,16 +77,12 @@ export async function getAllDOVsByUnderlying(account: string, underlying: Underl
         underlying,
         additionalData,
       )
-      console.log('Protocol', protocol)
-      console.log('dovs', positions)
       result = result.concat(positions)
     } catch (error) {
       console.log(`error`, error)
       console.log(`Fetching ${protocol} position error`)
     }
   }
-
-  console.log(`result`, result)
 
   const showTestnet = getPreference(SHOW_TESTNET, 'true') === 'true'
   return result

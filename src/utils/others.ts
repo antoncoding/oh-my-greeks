@@ -11,7 +11,7 @@ import {
 } from '../constants'
 import { toTokenAmount } from './math'
 import BigNumber from 'bignumber.js'
-import { Position, DovPosition } from '../types'
+import { Position, Greeks } from '../types'
 
 // ENS
 export const resolveENS = async (ensName: string, networkId: number) => {
@@ -24,6 +24,23 @@ export const resolveENS = async (ensName: string, networkId: number) => {
 export const isEOA = async (address: string, networkId: number): Promise<Boolean> => {
   const web3 = new Web3(networkToProvider[networkId])
   return (await web3.eth.getCode(address)) === '0x'
+}
+
+type GreeksAndCollateral = Greeks & { collateralDelta?: number }
+
+export const mergeGreeks = (greekArray: GreeksAndCollateral[]): Greeks => {
+  return greekArray.reduce(
+    (prev, curr) => {
+      return {
+        delta: prev.delta + curr.delta + curr.collateralDelta || 0,
+        gamma: prev.gamma + curr.gamma,
+        theta: prev.theta + curr.theta,
+        vega: prev.vega + curr.vega,
+        rho: prev.rho + curr.rho,
+      }
+    },
+    { delta: 0, gamma: 0, vega: 0, theta: 0, rho: 0 },
+  )
 }
 
 export const showExpiryText = (expiry: number) => {
