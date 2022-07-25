@@ -57,7 +57,7 @@ function App() {
                 <Route path="/positions/">
                   <ConnectWallet />
                 </Route>
-                <Route path="/dovs/">
+                <Route path="/dovs/:account">
                   <Dov />
                 </Route>
                 <Route path="/tokens/:account">

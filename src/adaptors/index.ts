@@ -7,7 +7,7 @@ import {
   SupportedNetworks,
   UnderlyingAsset,
 } from '../constants'
-import { Position, UserTeamTokenBalance } from '../types'
+import { DovPosition, Position, UserTeamTokenBalance } from '../types'
 
 import PremiaAdaptor from './protocols/premia'
 import LyraAdaptor from './protocols/lyra'
@@ -56,6 +56,44 @@ export async function getAllPositionsByUnderlying(account: string, underlying: U
   return result
     .filter(position => showTestnet || isMainnet[position.chainId])
     .filter(position => position.amount.gte(Number(getPreference(DUST_AMOUNT, '0.01'))))
+}
+
+/**
+ * Get all DOV share positions. Filtered by underlying
+ * @param account
+ * @param underlying
+ * @returns
+ */
+export async function getAllDOVsByUnderlying(account: string, underlying: UnderlyingAsset): Promise<DovPosition[]> {
+  // get commonly used data. (for now, euler positions)
+  const additionalData = await getAdditionalData(account)
+
+  // iterate through all protocols and find get positions
+  let result: DovPosition[] = []
+  for (const protocol of Object.values(Protocols)) {
+    try {
+      const positions = await protocolToAdaptor(protocol).getDovPositionsByUnderlying(
+        account,
+        underlying,
+        additionalData,
+      )
+      console.log('Protocol', protocol)
+      console.log('dovs', positions)
+      result = result.concat(positions)
+    } catch (error) {
+      console.log(`error`, error)
+      console.log(`Fetching ${protocol} position error`)
+    }
+  }
+
+  console.log(`result`, result)
+
+  const showTestnet = getPreference(SHOW_TESTNET, 'true') === 'true'
+  return result
+    .filter(position => showTestnet || isMainnet[position.chainId])
+    .filter(
+      position => position.positions.filter(p => p.amount.gte(Number(getPreference(DUST_AMOUNT, '0.01')))).length > 0,
+    )
 }
 
 /**

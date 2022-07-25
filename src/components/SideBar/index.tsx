@@ -52,7 +52,7 @@ export default function SideBar() {
           title="DOVs"
           icon={<IconDashedSquare />}
           onClick={() => {
-            history.push(`/dovs/`)
+            history.push(`/dovs/${user}`)
             setSelectedTab(3)
           }}
           isSelected={selectedTab === 3}

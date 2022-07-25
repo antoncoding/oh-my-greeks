@@ -1,9 +1,30 @@
 import BigNumber from 'bignumber.js'
-import { OptionType } from '../constants'
+import { Direction, OptionType } from '../constants'
 const greeks = require('greeks')
 
 const Web3 = require('web3')
 const web3 = new Web3()
+
+export function getWeightedPositionGreeks(
+  spot: BigNumber,
+  strikePrice: BigNumber,
+  expiry: number,
+  vol: number,
+  type: OptionType,
+  amount: BigNumber,
+  direction: Direction,
+  additionalData: any | undefined,
+) {
+  const { delta, gamma, vega, theta, rho } = getPositionGreeks(spot, strikePrice, expiry, vol, type, additionalData)
+  const sign = direction === Direction.Long ? 1 : -1
+  return {
+    delta: amount.times(delta).times(sign).toNumber(),
+    gamma: amount.times(gamma).times(sign).toNumber(),
+    vega: amount.times(vega).times(sign).toNumber(),
+    theta: amount.times(theta).times(sign).toNumber(),
+    rho: amount.times(rho).times(sign).toNumber(),
+  }
+}
 
 export function getPositionGreeks(
   spot: BigNumber,

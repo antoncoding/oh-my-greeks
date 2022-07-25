@@ -10,7 +10,7 @@ import {
   allTokens,
 } from '../../../constants'
 import BigNumber from 'bignumber.js'
-import { Position, Token } from '../../../types'
+import { Position, DovPosition, Token } from '../../../types'
 import { toTokenAmount } from '../../../utils/math'
 import { Adaptor } from '../../interface'
 import { querySubgraph } from '../../utils'
@@ -49,6 +49,14 @@ export class OpynAdaptor implements Adaptor {
     const longPositions = await this.getLongs(account)
 
     return shorts.concat(longPositions).concat(eulerPosition)
+  }
+
+  async getDovPositionsByUnderlying(
+    account: string,
+    underlying: UnderlyingAsset,
+    additionalData?: AdditionalData,
+  ): Promise<DovPosition[]> {
+    return []
   }
 
   /**
@@ -111,14 +119,51 @@ export class OpynAdaptor implements Adaptor {
   }
 
   eulerBalanceToPosition(eulerAccountData: EulerAccountBalances[]): Position[] {
-    return eulerAccountData.map(eulerAccount => {
-      const eulerPosition = eulerAccount.balances.find(b => b.asset.id === wSqueethAddress)
+    return eulerAccountData
+      .map(eulerAccount => {
+        const eulerPosition = eulerAccount.balances.find(b => b.asset.id === wSqueethAddress)
 
-      // no euler position with squeeth
-      if (!eulerPosition) return undefined
+        // no euler position with squeeth
+        if (!eulerPosition) return undefined
 
-      if (eulerPosition.amount.gt(0)) {
-        // return long position with no collateral
+        if (eulerPosition.amount.gt(0)) {
+          // return long position with no collateral
+          return {
+            id: `euler-${eulerAccount.account}`,
+            chainId: SupportedNetworks.Mainnet,
+            protocol: Protocols.Opyn,
+            strikePrice: new BigNumber(0),
+            expiry: 0,
+            type: OptionType.PowerPerp,
+            direction: Direction.Long,
+            amount: toTokenAmount(eulerPosition.amount, 18),
+            strike: USDC,
+            underlying: ETH,
+            collateral: ETH,
+            // collateral: findTokenByAddress(lyraPosition.isBaseCollateral ? lyraPosition.market.baseAddress : lyraPosition.market.quoteAddress, SupportedNetworks.Optimism),
+            collateralAmount: new BigNumber(0),
+            additionalData: this.normFactor,
+          }
+        }
+
+        // it is the short position,
+        // try to find collateral asset this sub-account
+        const collaterals = eulerAccount.balances
+          .filter(b => b.asset.id !== wSqueethAddress)
+          .filter(b => b.amount.gt(0))
+
+        let collateralToUse: undefined | Token = undefined
+        let collateralAmount = new BigNumber(0)
+        for (const collateral of collaterals) {
+          for (const token of allTokens) {
+            if (Object.values(token.addresses).includes(collateral.asset.id)) {
+              collateralToUse = token
+              collateralAmount = new BigNumber(collateral.amount)
+              break
+            }
+          }
+        }
+
         return {
           id: `euler-${eulerAccount.account}`,
           chainId: SupportedNetworks.Mainnet,
@@ -126,50 +171,17 @@ export class OpynAdaptor implements Adaptor {
           strikePrice: new BigNumber(0),
           expiry: 0,
           type: OptionType.PowerPerp,
-          direction: Direction.Long,
-          amount: toTokenAmount(eulerPosition.amount, 18),
+          direction: Direction.Short,
+          amount: toTokenAmount(eulerPosition.amount, 18).abs(),
           strike: USDC,
           underlying: ETH,
-          collateral: ETH,
+          collateral: collateralToUse,
           // collateral: findTokenByAddress(lyraPosition.isBaseCollateral ? lyraPosition.market.baseAddress : lyraPosition.market.quoteAddress, SupportedNetworks.Optimism),
-          collateralAmount: new BigNumber(0),
+          collateralAmount: collateralAmount,
           additionalData: this.normFactor,
         }
-      }
-
-      // it is the short position,
-      // try to find collateral asset this sub-account
-      const collaterals = eulerAccount.balances.filter(b => b.asset.id !== wSqueethAddress).filter(b => b.amount.gt(0))
-
-      let collateralToUse: undefined | Token = undefined
-      let collateralAmount = new BigNumber(0)
-      for (const collateral of collaterals) {
-        for (const token of allTokens) {
-          if (Object.values(token.addresses).includes(collateral.asset.id)) {
-            collateralToUse = token
-            collateralAmount = new BigNumber(collateral.amount)
-            break
-          }
-        }
-      }
-
-      return {
-        id: `euler-${eulerAccount.account}`,
-        chainId: SupportedNetworks.Mainnet,
-        protocol: Protocols.Opyn,
-        strikePrice: new BigNumber(0),
-        expiry: 0,
-        type: OptionType.PowerPerp,
-        direction: Direction.Short,
-        amount: toTokenAmount(eulerPosition.amount, 18).abs(),
-        strike: USDC,
-        underlying: ETH,
-        collateral: collateralToUse,
-        // collateral: findTokenByAddress(lyraPosition.isBaseCollateral ? lyraPosition.market.baseAddress : lyraPosition.market.quoteAddress, SupportedNetworks.Optimism),
-        collateralAmount: collateralAmount,
-        additionalData: this.normFactor,
-      }
-    })
+      })
+      .filter(p => p !== undefined)
   }
 }
 

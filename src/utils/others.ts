@@ -11,7 +11,7 @@ import {
 } from '../constants'
 import { toTokenAmount } from './math'
 import BigNumber from 'bignumber.js'
-import { Position } from '../types'
+import { Position, DovPosition } from '../types'
 
 // ENS
 export const resolveENS = async (ensName: string, networkId: number) => {
