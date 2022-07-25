@@ -4,7 +4,7 @@ import { DataView, LinkBase, Box } from '@aragon/ui'
 
 import SectionTitle from '../../components/SectionHeader'
 import TypeTag from '../../components/ActionBadge'
-import { POSITIONS } from '../../constants/dataviewContents'
+import { DOVS } from '../../constants/dataviewContents'
 
 import { green, red, secondary } from '../../components/StyleDiv'
 import { DovPosition } from '../../types'
@@ -157,7 +157,7 @@ export default function Positions({ isLoading, dovWithGreeks }: { isLoading: boo
         heading={<SectionTitle title={`DOV Shares`} />}
         fields={['Name', 'balance', 'delta', 'gamma', 'vega', 'theta', 'collateral', 'protocol']}
         tableRowHeight={45}
-        emptyState={POSITIONS}
+        emptyState={DOVS}
         entries={dovWithGreeks}
         renderEntry={renderVaultRow}
         renderEntryExpansion={renderEntryExpansion}

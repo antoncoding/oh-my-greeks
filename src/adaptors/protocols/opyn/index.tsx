@@ -29,8 +29,8 @@ export class OpynAdaptor implements Adaptor {
 
   url = 'https://opyn.co/'
 
-  // todo: update
-  normFactor = 0.67
+  // todo: update to fetch from contracts
+  normFactor = 0.53
 
   async getPositionsByUnderlying(
     account: string,

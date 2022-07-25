@@ -13,7 +13,7 @@ export const getVaults = (address: string) => {
   return `
 {
   vaultAccounts(where: {
-    account: "0xc08922a77140ce1aa91d419f4ac2ddc853575511"
+    account: "${address}"
     totalBalance_gt: 2
   }) {
     id
@@ -22,6 +22,7 @@ export const getVaults = (address: string) => {
     totalBalance
     vault {
       name
+      symbol
       id
       underlyingAsset
       totalBalance

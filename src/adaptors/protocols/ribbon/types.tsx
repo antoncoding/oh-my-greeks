@@ -5,6 +5,7 @@ export type RibbonVaultAccount = {
   totalBalance: string
   vault: {
     id: string
+    symbol: string
     underlyingAsset: string
     name: string
     totalBalance: string

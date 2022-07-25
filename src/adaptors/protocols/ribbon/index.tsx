@@ -24,9 +24,11 @@ export class RibbonAdaptor implements Adaptor {
     for (const network of rbnSupportedNetworks) {
       const endpoint = networkToSubgraphEndpoint(network)
       const vaults = (await querySubgraph(endpoint, getVaults(account)))['vaultAccounts'] as RibbonVaultAccount[]
-      const vaultsWithUnderlying = vaults.filter(
-        v => findTokenByAddress(v.vault.underlyingAsset, network)?.asset === underlying,
-      )
+      const vaultsWithUnderlying = vaults.filter(v => {
+        const depositedAsset = findTokenByAddress(v.vault.underlyingAsset, network)?.asset
+        // deposited asset is the selected asset, or stables
+        return depositedAsset === underlying || depositedAsset === UnderlyingAsset.USD
+      })
 
       for (const vaultAccount of vaultsWithUnderlying) {
         const shortPositions = (await querySubgraph(endpoint, getVaultShort(vaultAccount.vault.id)))[
@@ -36,10 +38,15 @@ export class RibbonAdaptor implements Adaptor {
         if (shortPositions.length === 0) continue
         const short = shortPositions[0]
 
+        // use symbol to determine if it's a long or short
+        const isPut = vaultAccount.vault.symbol.includes('-P')
+
+        // if the vault is not put,
+        if (!vaultAccount.vault.symbol.includes(underlying)) continue
+
         // how much i own compared to full amount
         const vaultRatio = new BigNumber(vaultAccount.totalBalance).div(vaultAccount.vault.totalBalance)
         const myShortAmount = new BigNumber(short.mintAmount).times(vaultRatio).div(1e8) // divided by otoken decimals
-        console.log(`myShortAmount`, myShortAmount.toString())
 
         dovPositions.push({
           id: vaultAccount.id,
@@ -51,14 +58,14 @@ export class RibbonAdaptor implements Adaptor {
             {
               strikePrice: new BigNumber(short.strikePrice).div(1e8),
               expiry: new BigNumber(short.expiry).toNumber(),
-              type: OptionType.Call,
+              type: isPut ? OptionType.Put : OptionType.Call,
               direction: Direction.Short,
               amount: myShortAmount,
               underlying: ETH,
               strike: USDC,
             },
           ],
-          collateral: ETH,
+          collateral: findTokenByAddress(vaultAccount.vault.underlyingAsset, network),
           chainId: network,
           collateralAmount: new BigNumber(vaultAccount.totalBalance), // amount deposited as collateral
           additionalData: undefined,
