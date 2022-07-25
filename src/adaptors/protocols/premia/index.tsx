@@ -9,7 +9,7 @@ import {
   DAI,
   findLinkedAssetByAddress,
 } from '../../../constants'
-import { Position } from '../../../types'
+import { Position, DovPosition } from '../../../types'
 import { toTokenAmount } from '../../../utils/math'
 import { premia } from '../../../constants/teamTokens'
 import { Adaptor } from '../../interface'
@@ -41,6 +41,10 @@ export class PremiaAdaptor implements Adaptor {
       result = result.concat(positionOnThisNetwork)
     }
     return result
+  }
+
+  async getDovPositionsByUnderlying(account: string, underlying: UnderlyingAsset): Promise<DovPosition[]> {
+    return []
   }
 
   async getUserNonERC20Tokens(account: string) {

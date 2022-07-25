@@ -20,7 +20,6 @@ import { getPreference } from './utils/storage'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
 import { SHOW_SIDE_BAR } from './constants'
-import Dov from './pages/DOV'
 import Tokens from './pages/Tokens'
 
 function App() {
@@ -56,9 +55,6 @@ function App() {
                 </Route>
                 <Route path="/positions/">
                   <ConnectWallet />
-                </Route>
-                <Route path="/dovs/">
-                  <Dov />
                 </Route>
                 <Route path="/tokens/:account">
                   <Tokens />

@@ -9,6 +9,14 @@ export type ERC20 = {
   addresses: { [key in SupportedNetworks]?: string }
 }
 
+export type Greeks = {
+  delta: number
+  gamma: number
+  vega: number
+  theta: number
+  rho: number
+}
+
 export type TeamToken = ERC20 & {
   coingeckoId: string
   themeColor: string
@@ -35,6 +43,32 @@ export type Position = {
   collateralAmount: BigNumber
   additionalData: any | undefined
 }
+
+// 1 dov position (share) can be composed of 1 collateral and several long short positions
+export type DovPosition = {
+  id: string
+  name: string
+  balance: BigNumber
+  protocol: Protocols
+  positions: {
+    strikePrice: BigNumber
+    expiry: number
+    type: OptionType // call or put or power perp
+    direction: Direction // long or short
+    amount: BigNumber
+    underlying: Token
+    strike: Token
+  }[]
+  collateral?: Token
+  chainId: SupportedNetworks
+  collateralAmount: BigNumber
+  additionalData: any | undefined
+}
+
+export type PlainOptionWithGreeks = Position &
+  Greeks & {
+    collateralDelta: number
+  }
 
 // represent one user's position on the team token
 export type UserTeamTokenBalance = {

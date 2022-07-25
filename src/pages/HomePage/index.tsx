@@ -23,7 +23,6 @@ function HomePage() {
           <BoxButton
             title={protocol}
             description=""
-            tag={protocol === Protocols.Lyra ? 'Avalon' : undefined}
             icon={<img src={adaptor.img} alt={protocol} width={50} />}
             onClick={() => {
               window.open(adaptor.url, '_blank')

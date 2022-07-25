@@ -9,7 +9,7 @@ import {
   sUSD,
 } from '../../../constants'
 import BigNumber from 'bignumber.js'
-import { Position } from '../../../types'
+import { Position, DovPosition } from '../../../types'
 import { toTokenAmount } from '../../../utils/math'
 import { Adaptor } from '../../interface'
 import { querySubgraph } from '../../utils'
@@ -48,6 +48,14 @@ export class LyraAdaptor implements Adaptor {
       .filter(p => underlyingToLyraBaseAsset(underlying) === p.underlying)
 
     return result
+  }
+
+  async getDovPositionsByUnderlying(
+    account: string,
+    underlying: UnderlyingAsset,
+    additionalData?: AdditionalData,
+  ): Promise<DovPosition[]> {
+    return []
   }
 
   /**

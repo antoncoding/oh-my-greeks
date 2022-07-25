@@ -11,7 +11,7 @@ import {
 } from '../constants'
 import { toTokenAmount } from './math'
 import BigNumber from 'bignumber.js'
-import { Position } from '../types'
+import { Position, Greeks } from '../types'
 
 // ENS
 export const resolveENS = async (ensName: string, networkId: number) => {
@@ -26,6 +26,23 @@ export const isEOA = async (address: string, networkId: number): Promise<Boolean
   return (await web3.eth.getCode(address)) === '0x'
 }
 
+type GreeksAndCollateral = Greeks & { collateralDelta?: number }
+
+export const mergeGreeks = (greekArray: GreeksAndCollateral[]): Greeks => {
+  return greekArray.reduce(
+    (prev, curr) => {
+      return {
+        delta: prev.delta + curr.delta + (curr.collateralDelta || 0),
+        gamma: prev.gamma + curr.gamma,
+        theta: prev.theta + curr.theta,
+        vega: prev.vega + curr.vega,
+        rho: prev.rho + curr.rho,
+      }
+    },
+    { delta: 0, gamma: 0, vega: 0, theta: 0, rho: 0 },
+  )
+}
+
 export const showExpiryText = (expiry: number) => {
   if (expiry === 0) return '-'
   // Wed, 01 Jun 2022 06:00:00 GMT
@@ -33,6 +50,16 @@ export const showExpiryText = (expiry: number) => {
   const pieces = string.split(' ')
   const time = pieces[4]
   pieces[4] = time.slice(0, 5)
+  return pieces.join(' ')
+}
+
+export const showExpiryShort = (expiry: number) => {
+  if (expiry === 0) return '-'
+  // Wed, 01 Jun 2022 06:00:00 GMT
+  const string = new Date(expiry * 1000).toUTCString()
+  const pieces = string.split(' ').slice(1, 4)
+  // const time = pieces[4]
+  // pieces[4] = time.slice(0, 5)
   return pieces.join(' ')
 }
 
