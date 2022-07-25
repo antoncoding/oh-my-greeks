@@ -13,16 +13,12 @@ export function useDOVs(address: string, underlying: UnderlyingAsset) {
   // console.log('dovs', dovs)
 
   useEffect(() => {
-    console.log('h')
     async function fetchVaults() {
-      console.log('fetch')
       if (address) {
         console.log(address, address)
         const pos = await getAllDOVsByUnderlying(address, underlying)
         setAllDovs(pos)
         setIsLoading(false)
-      } else {
-        console.log('no addr')
       }
     }
     fetchVaults()
