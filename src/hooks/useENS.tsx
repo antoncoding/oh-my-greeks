@@ -14,6 +14,9 @@ export function useENS(address: string | null | undefined) {
         const provider = await new providers.JsonRpcProvider(networkToProvider[1])
         const name = await provider.lookupAddress(address)
         if (name) setENSName(name)
+        else setENSName(null)
+      } else {
+        setENSName(null)
       }
     }
     resolveENS()
