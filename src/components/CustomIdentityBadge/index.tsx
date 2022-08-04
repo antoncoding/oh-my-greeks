@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Modal, TextInput, Button, IdentityBadge, Header, textStyle, useTheme, IconLabel } from '@aragon/ui'
 import { getPreference, storePreference } from '../../utils/storage'
 
-import { ZERO_ADDR } from '../../constants'
+import { SupportedNetworks, ZERO_ADDR } from '../../constants'
 import { useConnectedWallet } from '../../contexts/wallet'
 
 type CustomIdentityBadgeProps = {
@@ -61,7 +61,13 @@ function CustomIdentityBadge({ entity, connectedAccount, label, shorten }: Custo
   return (
     <>
       <IdentityBadge
-        networkType={networkId === 1 ? 'main' : networkId === 3 ? 'ropsten' : 'kovan'}
+        networkType={
+          networkId === SupportedNetworks.Mainnet
+            ? 'main'
+            : networkId === SupportedNetworks.Ropsten
+            ? 'ropsten'
+            : 'kovan'
+        }
         entity={entity}
         connectedAccount={connectedAccount}
         label={displayLabel}

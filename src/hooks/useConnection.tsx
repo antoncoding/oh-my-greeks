@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from 'react'
-import { getPreference } from '../utils/storage'
 import Onboard from '@web3-onboard/core'
 import injectedModule from '@web3-onboard/injected-wallets'
 import walletConnectModule from '@web3-onboard/walletconnect'
 import Web3 from 'web3'
 import { networkToProvider, SupportedNetworks } from '../constants'
+import { getPreference, storePreference } from '../utils/storage'
 
 const icon = require('../imgs/greeks/favicon.ico')
 
@@ -25,19 +25,46 @@ const onboard = Onboard({
     },
     {
       id: '0x3',
-      token: 'tROP',
+      token: 'rETH',
       label: 'Ethereum Ropsten Testnet',
       rpcUrl: networkToProvider[SupportedNetworks.Ropsten],
+    },
+    {
+      id: '0x45',
+      token: 'oETH',
+      label: 'OP Kovan',
+      rpcUrl: networkToProvider[SupportedNetworks.OpKovan],
+    },
+    {
+      id: '0xa',
+      token: 'oETH',
+      label: 'Optimism',
+      rpcUrl: networkToProvider[SupportedNetworks.OpKovan],
+    },
+    {
+      id: '0x89',
+      token: 'MATIC',
+      label: 'Matic',
+      rpcUrl: networkToProvider[SupportedNetworks.Matic],
+    },
+    {
+      id: '0xa86a',
+      token: 'AVAX',
+      label: 'Avalanche',
+      rpcUrl: networkToProvider[SupportedNetworks.Avalanche],
+    },
+    {
+      id: '0xA4B1',
+      token: 'ETH',
+      label: 'Arbitrum',
+      rpcUrl: networkToProvider[SupportedNetworks.Arbitrum],
     },
   ],
   appMetadata: {
     name: 'Oh My Greeks',
-    icon: icon, // svg string icon
-    description: 'Swap tokens for other tokens',
-    recommendedInjectedWallets: [
-      { name: 'MetaMask', url: 'https://metamask.io' },
-      { name: 'Coinbase', url: 'https://wallet.coinbase.com/' },
-    ],
+    icon: icon,
+    description: 'Manage your on-chain greek exposures',
+    recommendedInjectedWallets: [{ name: 'MetaMask', url: 'https://metamask.io' }],
   },
   accountCenter: {
     desktop: {
@@ -56,32 +83,26 @@ const onboard = Onboard({
 export const useConnection = () => {
   const [user, setUser] = useState<string>('')
 
-  // const [onboard, setOnboard] = useState<any>(null)
+  const storedNetworkId = getPreference('omg-network', '0x1') as SupportedNetworks
+  const [networkId, setNetworkId] = useState<SupportedNetworks>(storedNetworkId)
 
   const [web3] = useState<Web3>(new Web3(networkToProvider[SupportedNetworks.Mainnet]))
-
-  const storedNetwork = Number(getPreference('gamma-networkId', '1'))
-  const [networkId] = useState<SupportedNetworks>(storedNetwork)
 
   const walletsSub = onboard.state.select('wallets')
   const { unsubscribe } = walletsSub.subscribe(wallets => {
     const connectedWallets = wallets.map(({ label }) => label)
-    window.localStorage.setItem('connectedWallets', JSON.stringify(connectedWallets))
+    storePreference('connectedWallets', JSON.stringify(connectedWallets))
   })
 
-  // const handleNetworkChange = useCallback(
-  //   _networkId => {
-  //     if (_networkId in SupportedNetworks) {
-  //       setNetworkId(_networkId)
-  //       storePreference('gamma-networkId', _networkId.toString())
+  // const chainSub = onboard.state.select('chains')
+  // const { unsubscribe: unsubscribeChain } = chainSub.subscribe(chains => {
+
+  //     if (chains.length > 0) {
+  //       const id = chains[chains.length - 1].id
+  //       storePreference('omg-network', id)
+  //       setNetworkId(parseInt(id, 16))
   //     }
-  //     if (onboard)
-  //       onboard.config({
-  //         networkId: _networkId,
-  //       })
-  //   },
-  //   [onboard],
-  // )
+  // })
 
   // get last connection info and try to set default user to previous connected account.
   useEffect(() => {
@@ -123,5 +144,10 @@ export const useConnection = () => {
     setUser('')
   }, [])
 
-  return { networkId, user, setUser, web3, connect, disconnect }
+  const switchNetwork = useCallback((selectedNetwork: SupportedNetworks) => {
+    onboard.setChain({ chainId: selectedNetwork })
+    setNetworkId(selectedNetwork)
+  }, [])
+
+  return { switchNetwork, networkId, user, setUser, web3, connect, disconnect }
 }

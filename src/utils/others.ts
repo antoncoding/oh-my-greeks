@@ -119,7 +119,7 @@ export async function switchNetwork(provider: any, networkId: SupportedNetworks)
       method: 'wallet_switchEthereumChain',
       params: [
         {
-          chainId: `0x${networkId.toString(16)}`,
+          chainId: networkId,
         },
       ],
     })
@@ -129,7 +129,7 @@ export async function switchNetwork(provider: any, networkId: SupportedNetworks)
       method: 'wallet_addEthereumChain',
       params: [
         {
-          chainId: `0x${networkId.toString(16)}`,
+          chainId: networkId,
           chainName: networkIdToName[networkId],
           nativeCurrency: networkToTokenConfig(networkId),
           rpcUrls: [networkToProvider[networkId]],

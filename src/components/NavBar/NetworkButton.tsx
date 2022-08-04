@@ -5,28 +5,32 @@ import { Button, Modal, useTheme } from '@aragon/ui'
 import { useConnectedWallet } from '../../contexts/wallet'
 import { isMainnet, networkIdToName, networkToLogo, SupportedNetworks } from '../../constants'
 import SectionTitle from '../SectionHeader'
-import { switchNetwork } from '../../utils/others'
 
-const networkKeys = Object.keys(SupportedNetworks).filter(k => isNaN(Number(SupportedNetworks[k])))
+const networkKeys = Object.values(SupportedNetworks)
+
+console.log('networkKeys', networkKeys)
 
 const items = networkKeys.map(k => {
   return {
-    id: parseInt(k),
+    id: k,
     title: networkIdToName[k],
     logo: networkToLogo[k],
   }
 })
 
 function NetworkButton() {
-  const { networkId } = useConnectedWallet()
+  const { networkId, switchNetwork } = useConnectedWallet()
 
   const [opened, setOpened] = useState(false)
 
   const theme = useTheme()
 
-  const onClick = useCallback(networkId => {
-    switchNetwork((window as any).ethereum, networkId)
-  }, [])
+  const onClick = useCallback(
+    networkId => {
+      switchNetwork(networkId)
+    },
+    [switchNetwork],
+  )
 
   return (
     <div>

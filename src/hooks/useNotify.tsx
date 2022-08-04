@@ -6,7 +6,7 @@ import { useConnectedWallet } from '../contexts/wallet'
 
 export function useNotify() {
   const { networkId } = useConnectedWallet()
-  const notify = useMemo(() => createNotify(networkId), [networkId])
+  const notify = useMemo(() => createNotify(parseInt(networkId, 16)), [networkId])
 
   const notifyCallback = useCallback(
     hash => {
