@@ -1,7 +1,12 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
+
 import Onboard from '@web3-onboard/core'
 import injectedModule from '@web3-onboard/injected-wallets'
 import walletConnectModule from '@web3-onboard/walletconnect'
+import coinbaseModule from '@web3-onboard/coinbase'
+import gnosisModule from '@web3-onboard/gnosis'
+import formaticModule from '@web3-onboard/fortmatic'
+
 import Web3 from 'web3'
 import { networkToProvider, SupportedNetworks } from '../constants'
 import { storePreference } from '../utils/storage'
@@ -12,10 +17,13 @@ const BLOCKNATIVE_KEY = process.env.REACT_APP_BLOCKNATIVE_KEY
 
 const injected = injectedModule()
 const walletConnect = walletConnectModule()
+const gnosis = gnosisModule()
+const coinbase = coinbaseModule()
+const formatic = formaticModule({ apiKey: process.env.REACT_APP_FORTMATIC_KEY })
 
 const onboard = Onboard({
   apiKey: BLOCKNATIVE_KEY, // [String] The API key created by step one above
-  wallets: [injected, walletConnect],
+  wallets: [injected, walletConnect, gnosis, coinbase, formatic],
   chains: [
     {
       id: '0x1',
