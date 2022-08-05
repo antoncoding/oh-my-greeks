@@ -92,7 +92,7 @@ function Login() {
                 // goToAccount(InAddress)
               } else {
                 try {
-                  const address = await resolveENS(InAddress, networkId)
+                  const address = await resolveENS(InAddress, parseInt(networkId, 16))
                   checkAddressAndAddToStorage(address)
                   setUser(address)
                   // goToAccount(address)

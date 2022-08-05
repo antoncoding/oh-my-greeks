@@ -10,6 +10,7 @@ export interface Wallet {
   networkId: SupportedNetworks
   connect: () => Promise<string | false>
   disconnect: Function
+  switchNetwork: Function
 }
 
 export const DEFAULT: Wallet = {
@@ -19,6 +20,7 @@ export const DEFAULT: Wallet = {
   setUser: (user: string): void => {},
   connect: async () => '',
   disconnect: () => {},
+  switchNetwork: () => {},
 }
 
 export const walletContext = createContext(DEFAULT)

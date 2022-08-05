@@ -6,13 +6,13 @@ import AVAX from '../imgs/token-icons/WAVAX.webp'
 import Ethereum from '../imgs/token-icons/Ethereum.png'
 
 export enum SupportedNetworks {
-  Mainnet = 1,
-  Ropsten = 3,
-  Optimism = 10,
-  OpKovan = 69,
-  Matic = 137,
-  Avalanche = 43114,
-  Arbitrum = 42161,
+  Mainnet = '0x1',
+  Ropsten = '0x3',
+  Optimism = '0xa',
+  OpKovan = '0x45',
+  Matic = '0x89',
+  Avalanche = '0xa86a',
+  Arbitrum = '0xa4b1',
 }
 
 export const networkIdToExplorer = {
