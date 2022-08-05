@@ -8,8 +8,6 @@ import SectionTitle from '../SectionHeader'
 
 const networkKeys = Object.values(SupportedNetworks)
 
-console.log('networkKeys', networkKeys)
-
 const items = networkKeys.map(k => {
   return {
     id: k,

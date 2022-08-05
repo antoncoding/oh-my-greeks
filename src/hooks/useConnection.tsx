@@ -1,10 +1,10 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import Onboard from '@web3-onboard/core'
 import injectedModule from '@web3-onboard/injected-wallets'
 import walletConnectModule from '@web3-onboard/walletconnect'
 import Web3 from 'web3'
 import { networkToProvider, SupportedNetworks } from '../constants'
-import { getPreference, storePreference } from '../utils/storage'
+import { storePreference } from '../utils/storage'
 
 const icon = require('../imgs/greeks/favicon.ico')
 
@@ -83,8 +83,8 @@ const onboard = Onboard({
 export const useConnection = () => {
   const [user, setUser] = useState<string>('')
 
-  const storedNetworkId = getPreference('omg-network', '0x1') as SupportedNetworks
-  const [networkId, setNetworkId] = useState<SupportedNetworks>(storedNetworkId)
+  const initNetworkId = useMemo(() => getConnectedNetwork(), [])
+  const [networkId, setNetworkId] = useState<SupportedNetworks>(initNetworkId)
 
   const [web3] = useState<Web3>(new Web3(networkToProvider[SupportedNetworks.Mainnet]))
 
@@ -92,17 +92,13 @@ export const useConnection = () => {
   const { unsubscribe } = walletsSub.subscribe(wallets => {
     const connectedWallets = wallets.map(({ label }) => label)
     storePreference('connectedWallets', JSON.stringify(connectedWallets))
+    setNetworkId(getConnectedNetwork())
   })
 
-  // const chainSub = onboard.state.select('chains')
-  // const { unsubscribe: unsubscribeChain } = chainSub.subscribe(chains => {
-
-  //     if (chains.length > 0) {
-  //       const id = chains[chains.length - 1].id
-  //       storePreference('omg-network', id)
-  //       setNetworkId(parseInt(id, 16))
-  //     }
-  // })
+  const chainSub = onboard.state.select('chains')
+  const { unsubscribe: unsubscribeChain } = chainSub.subscribe(chains => {
+    setNetworkId(getConnectedNetwork())
+  })
 
   // get last connection info and try to set default user to previous connected account.
   useEffect(() => {
@@ -124,8 +120,9 @@ export const useConnection = () => {
     // cleanup function
     return () => {
       unsubscribe()
+      unsubscribeChain()
     }
-  }, [unsubscribe])
+  }, [unsubscribe, unsubscribeChain])
 
   const connect = useCallback(async () => {
     if (!onboard) return
@@ -146,8 +143,20 @@ export const useConnection = () => {
 
   const switchNetwork = useCallback((selectedNetwork: SupportedNetworks) => {
     onboard.setChain({ chainId: selectedNetwork })
-    setNetworkId(selectedNetwork)
   }, [])
 
   return { switchNetwork, networkId, user, setUser, web3, connect, disconnect }
+}
+
+function getConnectedNetwork() {
+  const [primaryWallet] = onboard.state.get().wallets
+  if (!primaryWallet) return SupportedNetworks.Mainnet
+
+  let network = (
+    primaryWallet.chains.length > 0 ? primaryWallet.chains[0].id : SupportedNetworks.Mainnet
+  ) as SupportedNetworks
+  if (!Object.values(SupportedNetworks).includes(network)) {
+    network = SupportedNetworks.Mainnet
+  }
+  return network
 }
